@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import jump from '../src/api/jump';
 import cabi from '../src/api/cabi';
 import bird from '../src/api/bird';
+import lime from '../src/api/lime';
 
 class App extends Component {
   constructor(props) {
@@ -9,7 +10,8 @@ class App extends Component {
     this.state = {
       jumpBikes: undefined,
       caBiBikes: undefined,
-      birdScooters: undefined
+      birdScooters: undefined,
+      limeShare: undefined
     };
   }
 
@@ -41,10 +43,20 @@ class App extends Component {
     .catch(err => console.log(err));
   }
 
+  getLimeShare() {
+    lime
+    .search()
+    .then(res => {
+      this.setState({limeShare: res});
+    })
+    .catch(err => console.log(err));
+  }
+
     componentDidMount() {
-      this.getJumpBikes();
+      // this.getJumpBikes();
       // this.getCaBiBikes();
-      this.getBirdScooters();
+      // this.getBirdScooters();
+      this.getLimeShare();
     }
 
   render() {
