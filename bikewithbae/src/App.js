@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import jump from '../src/api/jump';
 import cabi from '../src/api/cabi';
+import bird from '../src/api/bird';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       jumpBikes: undefined,
-      caBiBikes: undefined
+      caBiBikes: undefined,
+      birdScooters: undefined
     };
   }
 
@@ -30,9 +32,19 @@ class App extends Component {
     .catch(err => console.log(err));
   }
 
+  getBirdScooters() {
+    bird
+    .search()
+    .then(res => {
+      this.setState({birdScooters: res});
+    })
+    .catch(err => console.log(err));
+  }
+
     componentDidMount() {
-      this.getJumpBikes();
-      this.getCaBiBikes();
+      // this.getJumpBikes();
+      // this.getCaBiBikes();
+      this.getBirdScooters();
     }
 
   render() {
