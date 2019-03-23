@@ -51,7 +51,7 @@ class App extends Component {
     
     return (
       <div className='App'>
-        {this.state.jumpBikes && (
+        {/* {this.state.jumpBikes && (
           <div className='jump-bikes'>
           <h2>Here are where all the Jump Bikes are...</h2>
           {this.state.jumpBikes.map(jumpBike => (
@@ -61,7 +61,18 @@ class App extends Component {
               </div>
             ))}
           </div>
-        )}
+        )} */}
+        {this.state.birdScooters && (
+          <div className='bird-scooters'>
+          <h2>Here are where all the Bird Scooters are...</h2>
+          {this.state.birdScooters.map(birdScooter => (
+            <div>
+              <p key={birdScooter.id}>Charge level {birdScooter.battery_level}</p>
+              <p key={[birdScooter.location.latitude, birdScooter.location.longitude]}>{birdScooter.location.latitude}{birdScooter.location.longitude}</p>
+              </div>
+            ))}
+          </div>
+        )} 
       </div>
     );
   }

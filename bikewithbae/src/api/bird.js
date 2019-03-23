@@ -13,7 +13,7 @@ const headers = {
 //state - all bikes array of objects, bike ie + company, lat/long, 
 // make featureLayer from client side graphics, create renderer => bikeCLientField, has all da types, get red point if CitiBike, green in Lime, definitionExpressions => iterate over graphics and use those attributes, dropdown of companies, radius (with option to show all ie no radius), 
 
-
+//** could give radius and lat/long to the api calls as props! */
 export default {
   search: function() {
     return axios.get(BASEURL, {headers: headers})
