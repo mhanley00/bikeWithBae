@@ -42,7 +42,7 @@ class App extends Component {
   }
 
     componentDidMount() {
-      // this.getJumpBikes();
+      this.getJumpBikes();
       // this.getCaBiBikes();
       this.getBirdScooters();
     }

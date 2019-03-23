@@ -1,10 +1,15 @@
 import axios from 'axios';
-const BASEURL = 'https://api.bird.co/bird/nearby?latitude=37.77184&longitude=-122.40910&radius=1000';
+const deviceID = 'KVX04TT0tUG/IsD0DHgBAw==';
+const lat = 38.9072;
+const lon = -77.0369;
+const radius = 1;
+const authorization = 'Bird eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBVVRIIiwidXNlcl9pZCI6IjA4YzdiOGFkLTUwZGMtNGRjYi1iZWYwLTgxZjIyM2QxNjI4ZCIsImRldmljZV9pZCI6IktWWDA0VFQwdFVHL0lzRDBESGdCQXc9PSIsImV4cCI6MTU4NDc5NTQ2Nn0.l9Z4Ow6WeJ6wOeiUD8HOE5b3eAsDd0oRoE0D7IRbbII';
+const BASEURL = `https://api.bird.co/bird/nearby?latitude=${lat}&longitude=${lon}&radius=${radius}`;
 const headers = {
-  "Authorization": "Bird eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBVVRIIiwidXNlcl9pZCI6IjA4YzdiOGFkLTUwZGMtNGRjYi1iZWYwLTgxZjIyM2QxNjI4ZCIsImRldmljZV9pZCI6IktWWDA0VFQwdFVHL0lzRDBESGdCQXc9PSIsImV4cCI6MTU4NDc5NTQ2Nn0.l9Z4Ow6WeJ6wOeiUD8HOE5b3eAsDd0oRoE0D7IRbbII",
-  "Device-id": "KVX04TT0tUG/IsD0DHgBAw==",
-  "App-Version": "3.0.5",
-  "Location": `{"latitude":38.9,"longitude":-77.03,"altitude":500,"accuracy":100,"speed":-1,"heading":-1}`
+  'Authorization': authorization,
+  'Device-id': deviceID,
+  'App-Version': '3.0.5',
+  'Location': `{"latitude":${lat},"longitude":${lon},"altitude":500,"accuracy":100,"speed":-1,"heading":-1}`
 };
 // make new graphic w/ geometry of circle, radius of number passed in, 'new Polygon'
 // within opperation, for each bike, first argument is the bike's geometry and second is 
