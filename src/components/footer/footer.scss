@@ -1,0 +1,9 @@
+.footer {
+  display: flex;
+  height: 300px;
+  width: 100%;
+  
+  &> div{
+    width: 33%;
+  }
+}

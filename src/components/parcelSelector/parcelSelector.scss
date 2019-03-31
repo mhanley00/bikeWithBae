@@ -1,0 +1,11 @@
+.parcel-selector {
+  padding: 5px;
+
+  .esri-sketch__button.esri-icon-map-pin {
+    display: none;
+  }
+
+  .active {
+    background: lightblue;
+  }
+}

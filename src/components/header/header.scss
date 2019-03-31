@@ -1,0 +1,32 @@
+.header-container {
+  width: 100%;
+  height: 50px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  background: #325e3e;
+
+  h1 {
+    &[class^='Mui'] {
+      color: white;
+      margin-right: 10px;
+    }
+  }
+  h3 {
+    &[class^='Mui'] {
+      a {
+        text-decoration: none;
+        color: lightgray;
+      }
+    }
+  }
+}
+.logo-container {
+  margin-right: 10px;
+
+  img {
+    max-height: 30px;
+    max-width: 120px;
+  }
+}

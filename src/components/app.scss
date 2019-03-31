@@ -1,0 +1,23 @@
+.container {
+  height: 100%;
+  width: 100%
+}
+
+.hidden {
+  display: none;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.app-body {
+  display: flex;
+  width: 100%;
+  height: calc(100% - 50px);
+}
+
+.map-and-footer {
+  height: 100%;
+  width: 100%;
+}

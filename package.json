@@ -1,0 +1,94 @@
+{
+  "name": "vmt-screening-tool",
+  "version": "1.1.0",
+  "description": "React + Redux framework for ArcGIS JavaScript applications with Webpack 4 bundling",
+  "main": "index.js",
+  "author": "Blue Raster",
+  "scripts": {
+    "start": "nodemon --watch webpack.config.js --watch webpackconfig/ --exec \"webpack-dev-server --open --env development\"",
+    "build": "rm -rf ./build; webpack --env production",
+    "debug": "node --inspect --debug-brk ./node_modules/webpack/bin/webpack.js",
+    "lint:js": "eslint src/ webpack.*.js --cache",
+    "fix:lint:js": "yarn run lint:js -- --fix",
+    "test:jest:watch": "jest --watch",
+    "test": "jest --no-cache",
+    "test:update": "jest --updateSnapshot",
+    "clean:build": "rm -f build/*"
+  },
+  "jest": {
+    "setupTestFrameworkScriptFile": "<rootDir>/tests/setupTests.js",
+    "verbose": true,
+    "globals": {
+      "NODE_ENV": "test"
+    },
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    },
+    "moduleNameMapper": {
+      "\\.(css|scss)$": "<rootDir>/tests/__mocks__/object.js"
+    },
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ]
+  },
+  "dependencies": {
+    "@material-ui/core": "^3.9.2",
+    "@material-ui/lab": "^3.0.0-alpha.30",
+    "prop-types": "^15.6.1",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-redux": "^6.0.0",
+    "redux": "^4.0.1",
+    "redux-logger": "^3.0.6"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.2.3",
+    "@babel/plugin-proposal-decorators": "^7.2.3",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-env": "^7.2.3",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-stage-0": "^7.0.0",
+    "autoprefixer": "^9.4.5",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
+    "babel-loader": "^8.0.4",
+    "clean-webpack-plugin": "^1.0.0",
+    "compression-webpack-plugin": "^2.0.0",
+    "copy-webpack-plugin": "^4.6.0",
+    "css-loader": "^2.1.0",
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.7.1",
+    "eslint": "^5.11.1",
+    "eslint-loader": "^2.1.1",
+    "eslint-plugin-react": "^7.12.0",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "file-loader": "^3.0.1",
+    "html-loader": "^0.5.1",
+    "html-webpack-externals-plugin": "^3.6.0",
+    "html-webpack-plugin": "^3.2.0",
+    "jest": "^23.6.0",
+    "jest-cli": "^23.6.0",
+    "node-sass": "^4.11.0",
+    "nodemon": "^1.18.9",
+    "postcss-loader": "^3.0.0",
+    "react-hot-loader": "^4.6.3",
+    "redux-devtools": "^3.5.0",
+    "regenerator-runtime": "^0.13.1",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "uglifyjs-webpack-plugin": "^2.1.1",
+    "url-loader": "^1.1.2",
+    "webpack": "^4.28.2",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-middleware": "^3.4.0",
+    "webpack-dev-server": "^3.1.14",
+    "webpack-merge": "^4.1.5"
+  }
+}

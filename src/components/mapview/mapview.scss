@@ -1,0 +1,20 @@
+.mapview-container {
+  height: calc(100% - 300px);
+  width: 100%;
+
+  .mapview {
+    height: 100%;
+    width: 100%;
+
+    & > div:first-child {
+      height: 100%;
+      width: 100%;
+    }
+
+    .esri-legend {
+      padding: 12px 0;
+      min-width: 180px;
+      max-width: 350px;
+    }
+  }
+}

@@ -1,0 +1,10 @@
+node_modules
+
+build/
+
+.eslintcache
+.DS_Store
+.idea/
+.vscode/
+.editorconfig
+yarn-error.log

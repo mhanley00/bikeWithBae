@@ -1,0 +1,14 @@
+@import './variables.scss';
+
+* {
+  box-sizing: border-box;
+}
+
+body, #app-container {
+  overflow: hidden;
+  position: fixed;
+  width: 100vw;
+  margin: 0;
+  top: 0;
+  bottom: 0;
+}
