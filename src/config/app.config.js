@@ -2,13 +2,13 @@ export const appConfig = {
   /*
     App Text
   */
-  APP_TITLE: 'VMT Screening Tool',
+  APP_TITLE: 'Bike with Bae 🚲🚲',
 
   /*
     App Defaults
   */
-  // activeFeatures: ['Year', 'VMT Metric', 'Year Slider', 'Year Range', 'City'],
-  activeFeatures: ['VMT Metric'],
+  // activeFilters: ['Riders', 'Radius', 'Brand', 'City' ],
+  activeFilters: ['Riders', 'Radius', 'Brand'],
   webmapId: '641c9903b0664768a46487dc2ff284d5',
   gpServiceURL:
     'http://arcgis.fehrandpeers.com/web/rest/services/Apps/RS183653_EDCTC_VMT_Screening_Tool/GPServer/EDCTC%20VMT%20Screening%20Tool',
@@ -45,123 +45,134 @@ export const appConfig = {
       width: 2
     }
   },
-
   /*
-    Inset Map Options
-    visibleLayerIds: String[] containing layer ids or titles to show.
-    Basemaps must be included in list.
-
-    offSetType options are:
-    'scale': sets and maintains provided inset Map's scale.
-
-    'meters' | 'feet' | 'kilometers' | 'miles' | 'nautical-miles' | 'yards':
-    will buffer analysis area by value, and set inset map's exent to buffered exent.
-    https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngine.html#buffer
+    Filter Details
   */
-  insetMapOneOptions: {
-    visibleLayers: ['WRCOG Vector Basemap'],
-    offSetType: 'scale',
-    offSetValue: 50000
-  },
-  insetMapTwoOptions: {
-    visibleLayers: ['WRCOG Vector Basemap'],
-    offSetType: 'miles',
-    offSetValue: 10
-  },
-  /*
-    Client Feature Definitions
-  */
-  featureDefinitions: {
-    Year: {
-      name: 'Year',
-      label: 'Year',
+  filters: {
+    Riders: {
+      name: 'Riders',
+      label: 'Riders',
       type: 'dropdown',
       input: {
         inputs: [
           {
-            label: '2019',
-            value: 2019
+            label: '1',
+            value: 1
           },
           {
-            label: '2018',
-            value: 2018
+            label: '2',
+            value: 2
           },
           {
-            label: '2017',
-            value: 2017
+            label: '3',
+            value: 3
           },
           {
-            label: '2016',
-            value: 2016
+            label: '4',
+            value: 4
+          },
+          {
+            label: '5',
+            value: 5
+          },
+          {
+            label: '6',
+            value: 6
+          },
+          {
+            label: '7',
+            value: 7
           }
         ]
       },
-      required: true,
-      gpServiceParamKey: 'Year'
+      required: false
     },
-    'VMT Metric': {
-      name: 'VMT Metric',
-      label: 'VMT Metric',
+    Radius: {
+      name: 'Radius',
+      label: 'Radius',
       type: 'dropdown',
       input: {
         inputs: [
           {
-            label: 'Baseline (2016) Total VMT per Service Population',
-            value: 'Baseline (2016) Total VMT per Service Population'
+            label: '1',
+            value: 1
           },
           {
-            label:
-              '15% Reduction from Baseline (2016) Total VMT per Service Population',
-            value:
-              '15% Reduction from Baseline (2016) Total VMT per Service Population'
+            label: '2',
+            value: 2
           },
           {
-            label:
-              '7% Reduction from Baseline (2016) Total VMT per Service Population',
-            value:
-              '7% Reduction from Baseline (2016) Total VMT per Service Population'
+            label: '3',
+            value: 3
           },
           {
-            label: 'Future (2040) Total VMT per Service Population',
-            value: 'Future (2040) Total VMT per Service Population'
+            label: '4',
+            value: 4
+          },
+          {
+            label: '5',
+            value: 5
+          },
+          {
+            label: '6',
+            value: 6
+          },
+          {
+            label: '7',
+            value: 7
           }
         ]
       },
-      required: true,
-      gpServiceParamKey: 'VMT_Evaluation_Criteria'
+      required: false
     },
-    'Year Slider': {
-      name: 'Year Slider',
-      label: 'Year Slider',
-      type: 'slider',
+    Brand: {
+      name: 'Brand',
+      label: 'Brand',
+      type: 'dropdown',
       input: {
-        min: 2012,
-        max: 2019
+        inputs: [
+          {
+            label: 'Capital Bikeshare', //CaBi + Jump are main bikes now, do not see Lime bikes in Citymapper
+            value: 'Capital Bikeshare'
+          },
+          {
+            label: 'Jump',
+            value: 'Jump'
+          },
+          {
+            label: 'Lime',
+            value: 'Lime'
+          },
+          {
+            label: 'Lyft', //need to ask about API for this one
+            value: 'Lyft'
+          },
+          {
+            label: 'Skip',
+            value: 'Skip'
+          },
+          {
+            label: 'Bird',
+            value: 'Bird'
+          },
+          {
+            label: 'Spin', //Do not see any in Citymapper
+            value: 'Spin'
+          }
+        ]
       },
-      required: true,
-      gpServiceParamKey: 'Year Slider'
-    },
-    'Year Range': {
-      name: 'Year Range',
-      label: 'Year Range',
-      type: 'range',
-      input: {
-        min: 2012,
-        max: 2019
-      },
-      required: true,
-      gpServiceParamKey: 'yearsRange'
-    },
-    City: {
-      name: 'City',
-      label: 'City',
-      type: 'input',
-      input: {
-        label: 'Shingle Springs',
-        placeholder: 'Shingle Springs'
-      },
-      required: true,
-      gpServiceParamKey: 'city'
+      required: false
     }
+
+    // City: { //FOR FUTURE USE
+    //   name: 'City',
+    //   label: 'City',
+    //   type: 'input',
+    //   input: {
+    //     label: 'Shingle Springs',
+    //     placeholder: 'Shingle Springs'
+    //   },
+    //   required: true,
+    // }
   }
 };

@@ -93,7 +93,7 @@ export const updateLayerFromLayerController = (key, value, id) => {
   }
 };
 
-export const geoprocessor = () => { // TODO make it accept in featureDefinitions here, then we put the component
+export const geoprocessor = () => { // TODO make it accept in filters here, then we put the component
   const state = store.getState();
   if (state.mapview.selectedParcels.features.length > 0) {
 

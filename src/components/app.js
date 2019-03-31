@@ -1,21 +1,17 @@
 import React from 'react';
 import { hot } from 'react-hot-loader';
 
-import Header from 'components/header/header';
-import LeftPanel from 'components/leftPanel/leftPanel';
+import Nav from 'components/nav/nav';
 import Mapview from 'components/mapview/mapview';
-import Footer from 'components/footer/footer';
 
 import './app.scss';
 
 const App = () => (
   <div className='container'>
-    <Header />
     <div className='app-body'>
-      <LeftPanel />
+      <Nav />
       <div className='map-and-footer'>
         <Mapview />
-        <Footer />
       </div>
     </div>
   </div>

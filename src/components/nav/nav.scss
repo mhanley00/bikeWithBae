@@ -1,0 +1,56 @@
+.nav-container {
+  z-index: 10;
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  padding: 20px;
+  margin: 95px 20px 20px 15px;
+  overflow: auto;
+
+  .button {
+    margin-top: 15px;
+    width: 80px;
+    background: #325e3e;
+    color: white;
+    &[class^='Mui'] {
+      box-sizing: content-box !important;
+    }
+  }
+}
+
+.nav-header {
+  width: 100%;
+  height: 35px;
+  padding-right: 0px;
+  padding-left: 10px;
+  padding-top: 6px;
+  top: 0px;
+  left: 0px;
+  position: absolute;
+  background: #325e3e;
+
+  .card-header {
+    vertical-align: middle;
+    margin: auto;
+    &[class^='Mui'] {
+      color: white;
+    }
+  }
+}
+.feature-label {
+  padding-top: 20px;
+}
+
+.form {
+  color: white;
+  .dropdown-selector {
+    width: 100%;
+    margin-bottom: 10px;
+    &[class^='Mui'] {
+      // &:focus {
+      &:hover {
+        border: 5px dotted pink !important;
+      }
+    }
+  }
+}

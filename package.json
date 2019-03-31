@@ -1,9 +1,13 @@
 {
-  "name": "vmt-screening-tool",
-  "version": "1.1.0",
-  "description": "React + Redux framework for ArcGIS JavaScript applications with Webpack 4 bundling",
+  "name": "bike-with-bae",
+  "version": "1.0.0",
+  "description": "An app to help you find bikes and scooters so you can ride with your friends.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mhanley00/bikeWithBae"
+  },
   "main": "index.js",
-  "author": "Blue Raster",
+  "author": "Madeline Hanley",
   "scripts": {
     "start": "nodemon --watch webpack.config.js --watch webpackconfig/ --exec \"webpack-dev-server --open --env development\"",
     "build": "rm -rf ./build; webpack --env production",

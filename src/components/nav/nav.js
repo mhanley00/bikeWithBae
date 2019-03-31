@@ -9,11 +9,7 @@ import {
 
 //Components
 import Dropdown from './dropdown';
-import Range from './range';
-import Slide from './slide';
-import Input from './input';
-import ParcelSelector from '../parcelSelector/parcelSelector';
-import LayersController from '../layersController/layersController';
+// import ParcelSelector from '../parcelSelector/parcelSelector';
 
 //Client Feature Definition
 import config from 'config/config';
@@ -24,21 +20,22 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 //SASS
-import './leftPanel.scss';
+import './nav.scss';
 
-export class LeftPanel extends Component {
+export class Nav extends Component {
   constructor(props) {
     super(props);
 
-    const featureDefinitions = [];
-    config.appConfig.activeFeatures.forEach( featureName => {
-      if (config.appConfig.featureDefinitions.hasOwnProperty(featureName)){
-        featureDefinitions.push(config.appConfig.featureDefinitions[featureName]);
+    const filters = [];
+    config.appConfig.activeFilters.forEach( filterName => {
+      // console.log()
+      if (config.appConfig.filters.hasOwnProperty(filterName)){
+        filters.push(config.appConfig.filters[filterName]);
       }
     });
 
     this.state = {
-      featureDefinitions
+      filters
     };
 
   }
@@ -51,24 +48,6 @@ export class LeftPanel extends Component {
             definition={definition}
           />
         );
-      case 'range':
-        return (
-          <Range
-            definition={definition}
-          />
-        );
-      case 'slider':
-        return (
-          <Slide
-            definition={definition}
-          />
-        );
-      case 'input':
-        return (
-          <Input
-            definition={definition}
-          />
-        );
       // break;
       default:
         return null;
@@ -77,18 +56,18 @@ export class LeftPanel extends Component {
 
   handleClick = () => {
     // TODO
-    console.log(this.props.featureValues);
-    // debugger;
-    console.log(geoprocessor());
-    // return `&${definition.GPServiceParamKey}=${definition.selectedValue}`;
+    // console.log(this.props.featureValues);
+    // // debugger;
+    // console.log(geoprocessor());
   };
 
   render() {
     return (
-      <div className='feature-def-container'>
+      <div className='nav-container'>
+        <div className='nav-header'></div>
         <div>
           <FormControl variant='outlined'>
-            {this.state.featureDefinitions.map(definition => (
+            {this.state.filters.map(definition => (
               <div key={definition.label}>
                 <Typography variant='subheading' className='feature-label' key={definition.label}>
                   {definition.label || 'No Label'}
@@ -98,11 +77,7 @@ export class LeftPanel extends Component {
             ))}
           </FormControl>
         </div>
-        <LayersController
-        title={'Data Layers'}
-        // layers={this.props.layers}
-        />
-        <ParcelSelector />
+        {/* <ParcelSelector /> */}
         <Button
           variant='contained'
           href='#'
@@ -111,6 +86,7 @@ export class LeftPanel extends Component {
         >
           Execute
         </Button>
+
       </div>
     );
   }
@@ -126,4 +102,4 @@ const mapStateToProps = ({
 const mapDispatchToProps = () => ({
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(LeftPanel);
+export default connect(mapStateToProps, mapDispatchToProps)(Nav);
