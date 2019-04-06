@@ -1,4 +1,5 @@
 import WebMap from 'esri/WebMap';
+import Map from 'esri/Map';
 import MapView from 'esri/views/MapView';
 import Legend from 'esri/widgets/Legend';
 import Graphic from 'esri/Graphic';
@@ -34,14 +35,24 @@ let _setMapLayers = null;
 let _analysisActiveToggle = null;
 let _storeAnalysis = null;
 
-export const webmap = new WebMap({
-  portalItem: {
-    id: config.appConfig.webmapId
-  }
+// export const webmap = new WebMap({
+//   portalItem: {
+//     id: config.appConfig.webmapId
+//   }
+// });
+export const map = new Map({
+  basemap: 'dark-gray'
 });
 
+// export const view = new MapView({
+//   map: webmap
+// });
+
 export const view = new MapView({
-  map: webmap
+  map: map,
+  // container: map.container,
+  center: [-77.091, 38.8816],
+  zoom: 12
 });
 
 export const legend = new Legend({
@@ -51,52 +62,64 @@ export const legend = new Legend({
 /*
   Layer for displaying the selected Parcels
 */
-export const selectedParcelsGraphicsLayer = new GraphicsLayer({
-  id: 'selectedParcelsGraphicsLayer',
-  title: 'Selected Parcels'
-});
+// export const selectedParcelsGraphicsLayer = new GraphicsLayer({
+//   id: 'selectedParcelsGraphicsLayer',
+//   title: 'Selected Parcels'
+// });
 
 /*
   Layer for displaying the graphic which is used to query parcels
 */
-export const parcelSelectionGraphicsLayer = new GraphicsLayer({
-  id: 'parcelSelectionGraphicsLayer',
-  title: 'Parcel Query Geometry'
+// export const parcelSelectionGraphicsLayer = new GraphicsLayer({
+//   id: 'parcelSelectionGraphicsLayer',
+//   title: 'Parcel Query Geometry'
+// });
+
+/*
+  Drawing Utilities
+*/
+// export const sketch = new Sketch({
+//   view: view,
+//   layer: parcelSelectionGraphicsLayer
+// });
+export const drawingLayer = new GraphicsLayer({
+  id: 'customDrawing',
+  title: 'Custom Drawing'
 });
 
 /*
   Drawing Utilities
 */
 export const sketch = new Sketch({
-  view: view,
-  layer: parcelSelectionGraphicsLayer
+  view,
+  layer: drawingLayer
 });
 
 /*
   Start of layer visability + opacity manipulation
 */
-export const getLayerIDs = () => {
-  const layerIDs = webmap.layers.items.map(layer => {
-    return layer.id;
-  });
-  return layerIDs;
-};
+// export const getLayerIDs = () => {
+//   const layerIDs = webmap.layers.items.map(layer => {
+//     return layer.id;
+//   });
+//   return layerIDs;
+// };
 
-export const getLayerByID = id => {
-  return webmap.findLayerById(id);
-};
+// export const getLayerByID = id => {
+//   return webmap.findLayerById(id);
+// };
 
-export const updateLayerFromLayerController = (key, value, id) => {
-  const layerToUpdate = webmap.findLayerById(id);
-  if (layerToUpdate) {
-    layerToUpdate[key] = value;
-  }
-};
+// export const updateLayerFromLayerController = (key, value, id) => {
+//   const layerToUpdate = webmap.findLayerById(id);
+//   if (layerToUpdate) {
+//     layerToUpdate[key] = value;
+//   }
+// };
 
-export const geoprocessor = () => { // TODO make it accept in filters here, then we put the component
+export const geoprocessor = () => {
+  // TODO make it accept in filters here, then we put the component
   const state = store.getState();
   if (state.mapview.selectedParcels.features.length > 0) {
-
     _analysisActiveToggle(true);
 
     const url = config.appConfig.gpServiceURL;
@@ -105,8 +128,7 @@ export const geoprocessor = () => { // TODO make it accept in filters here, then
       ...state.screeningTool.featureValues,
       Parcels: state.mapview.selectedParcels
     };
-    gp.submitJob(params).then( results => {
-
+    gp.submitJob(params).then(results => {
       _analysisActiveToggle(false); //TODO - use this for spinner
       console.log(results);
       console.log(state.mapview.analysisIsActive);
@@ -135,14 +157,14 @@ export const initialize = container => {
     .then(_ => {
       view.ui.add([legend], 'top-right');
       view.ui.move(['zoom'], 'top-right');
-      view.on('click', _handleViewClick);
+      // view.on('click', _handleViewClick);
 
-      _setMapLayers(getLayerIDs());
+      // _setMapLayers(getLayerIDs());
       // console.log(webmap.layers.items.map(layer => layer.title));
     })
     .catch(noop);
 
-  webmap.addMany([selectedParcelsGraphicsLayer, parcelSelectionGraphicsLayer]);
+  // webmap.addMany([selectedParcelsGraphicsLayer, parcelSelectionGraphicsLayer]);
 
   return () => {
     view.container = null;
@@ -308,17 +330,17 @@ _queryParcelsFromGeometry = geometry => {
   });
 };
 
-_handleViewClick = event => {
-  const state = store.getState();
-  if (state.mapview.manualParcelSelection) {
-    //Once you've activated manual selection and clicked the map, reset query graphics.
-    parcelSelectionGraphicsLayer.removeAll();
+// _handleViewClick = event => {
+//   const state = store.getState();
+//   if (state.mapview.manualParcelSelection) {
+//     //Once you've activated manual selection and clicked the map, reset query graphics.
+//     parcelSelectionGraphicsLayer.removeAll();
 
-    _queryParcelsFromGeometry(event.mapPoint).then(featureSet => {
-      _toggleParcelsSelection(featureSet);
-    });
-  }
-};
+//     _queryParcelsFromGeometry(event.mapPoint).then(featureSet => {
+//       _toggleParcelsSelection(featureSet);
+//     });
+//   }
+// };
 
 _updateParcelQueryGraphic = event => {
   const graphicGeos = parcelSelectionGraphicsLayer.graphics
@@ -361,5 +383,6 @@ sketch.on('create, update', event => {
 });
 
 window.sketch = sketch;
-window.map = webmap;
+// window.map = webmap;
+window.map = map;
 window.view = view;

@@ -36,6 +36,10 @@ MapView.defaultProps = {
   error: false,
 };
 
+// const mapStateToProps = ({ mapview: { layers, error } }) => ({
+//   mapLayers: layers,
+//   error,
+// });
 const mapStateToProps = ({ mapview: { layers, error } }) => ({
   mapLayers: layers,
   error,
