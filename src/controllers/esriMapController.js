@@ -5,6 +5,7 @@ import Legend from 'esri/widgets/Legend';
 import Graphic from 'esri/Graphic';
 import GraphicsLayer from 'esri/layers/GraphicsLayer';
 import Sketch from 'esri/widgets/Sketch';
+import Circle from 'esri/geometry/Circle';
 import geometryEngine from 'esri/geometry/geometryEngine';
 import Geoprocessor from 'esri/tasks/Geoprocessor';
 
@@ -95,6 +96,28 @@ export const sketch = new Sketch({
   layer: drawingLayer
 });
 
+export const circle = new Circle({
+  radius: 1000,
+  center: [-77.0369, 38.9072]
+});
+export const fillSymbol = {
+  type: 'simple-fill', // autocasts as new SimpleFillSymbol()
+  color: [227, 139, 79, 0.8],
+  outline: {
+    // autocasts as new SimpleLineSymbol()
+    color: [255, 255, 255],
+    width: 1
+  }
+};
+
+// Add the geometry and symbol to a new graphic
+export const circleGraphic = new Graphic({
+  geometry: circle,
+  symbol: fillSymbol
+});
+
+
+
 /*
   Start of layer visability + opacity manipulation
 */
@@ -157,13 +180,16 @@ export const initialize = container => {
     .then(_ => {
       view.ui.add([legend], 'top-right');
       view.ui.move(['zoom'], 'top-right');
+      // view.graphics.add(circle);
+      view.graphics.add(circleGraphic);
+      console.log(circleGraphic);
+      
       // view.on('click', _handleViewClick);
 
       // _setMapLayers(getLayerIDs());
       // console.log(webmap.layers.items.map(layer => layer.title));
     })
     .catch(noop);
-
   // webmap.addMany([selectedParcelsGraphicsLayer, parcelSelectionGraphicsLayer]);
 
   return () => {
