@@ -49,6 +49,25 @@ export const map = new Map({
 //   map: webmap
 // });
 
+let latitude;
+let longitude;
+export const getUserLocation = () => {
+  const location = window.navigator && window.navigator.geolocation;
+
+  if (location) {
+    location.getCurrentPosition(
+      position => {
+        latitude = position.coords.latitude;
+        longitude = position.coords.longitude;
+        console.log(latitude, longitude);
+      },
+      error => {
+        latitude = 'err-latitude';
+        longitude = 'err-longitude';
+      }
+    );
+  }
+};
 export const view = new MapView({
   map: map,
   // container: map.container,
@@ -116,8 +135,6 @@ export const circleGraphic = new Graphic({
   symbol: fillSymbol
 });
 
-
-
 /*
   Start of layer visability + opacity manipulation
 */
@@ -174,16 +191,18 @@ export const geoprocessor = () => {
   @container: mounted html dom node
 */
 export const initialize = container => {
+  getUserLocation();
+
   view.container = container;
+
   view
     .when()
     .then(_ => {
       view.ui.add([legend], 'top-right');
       view.ui.move(['zoom'], 'top-right');
-      // view.graphics.add(circle);
       view.graphics.add(circleGraphic);
-      console.log(circleGraphic);
-      
+
+
       // view.on('click', _handleViewClick);
 
       // _setMapLayers(getLayerIDs());
@@ -191,7 +210,7 @@ export const initialize = container => {
     })
     .catch(noop);
   // webmap.addMany([selectedParcelsGraphicsLayer, parcelSelectionGraphicsLayer]);
-
+  // console.log(latitude, longitude);
   return () => {
     view.container = null;
   };
