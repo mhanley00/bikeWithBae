@@ -23,6 +23,8 @@ import {
 
 import store from '../store/store';
 
+import cabi from '../bikewithbaecode/api/cabi';
+
 //Declare local functions;
 const noop = () => {};
 let _setManualParcelSelectionState = null;
@@ -72,6 +74,7 @@ export const view = new MapView({
   map: map,
   // container: map.container,
   center: [-77.091, 38.8816],
+  // center: [longitude, latitude],
   zoom: 12
 });
 
@@ -119,6 +122,18 @@ export const circle = new Circle({
   radius: 1000,
   center: [-77.0369, 38.9072]
 });
+// export const userCircle = new Circle({
+//   radius: 1000,
+//   center: [longitude, latitude]
+// });
+export const stationMaker = (lon, lat) => {
+  //TODO add custom color by company
+  const stationCircle = new Circle({
+    radius: 200,
+    center: [lon, lat]
+  });
+  return stationCircle;
+};
 export const fillSymbol = {
   type: 'simple-fill', // autocasts as new SimpleFillSymbol()
   color: [227, 139, 79, 0.8],
@@ -128,12 +143,35 @@ export const fillSymbol = {
     width: 1
   }
 };
-
 // Add the geometry and symbol to a new graphic
 export const circleGraphic = new Graphic({
   geometry: circle,
   symbol: fillSymbol
 });
+
+export const getCaBiBikes = () => {
+  cabi.search().then(res => {
+    // drawingLayer.graphics.removeAll(); TODO - add this back in
+    const availableBikes = [];
+    // console.log(res.map(bike => bike.geometry.coordinates ));
+    // res.forEach(bike => console.log(bike.geometry.coordinates ));
+    res
+      .forEach(bike => {
+        const bikePoint = new Graphic({
+          geometry: stationMaker(
+            bike.geometry.coordinates[0],
+            bike.geometry.coordinates[1]
+          ),
+          symbol: fillSymbol // TODO config.appConfig.cabiStation > make red
+          // attributes //TODO add avail bikes/stations so can add to popup
+        });
+        availableBikes.push(bikePoint);
+      });
+      debugger
+      drawingLayer.graphics.addMany(availableBikes);
+      // .catch(err => console.log(err));
+  });
+};
 
 /*
   Start of layer visability + opacity manipulation
@@ -192,6 +230,7 @@ export const geoprocessor = () => {
 */
 export const initialize = container => {
   getUserLocation();
+  getCaBiBikes();
 
   view.container = container;
 
@@ -201,7 +240,6 @@ export const initialize = container => {
       view.ui.add([legend], 'top-right');
       view.ui.move(['zoom'], 'top-right');
       view.graphics.add(circleGraphic);
-
 
       // view.on('click', _handleViewClick);
 
