@@ -2,12 +2,12 @@ import WebMap from 'esri/WebMap';
 import Map from 'esri/Map';
 import MapView from 'esri/views/MapView';
 import Legend from 'esri/widgets/Legend';
+import Locate from 'esri/widgets/Locate';
 import Graphic from 'esri/Graphic';
 import GraphicsLayer from 'esri/layers/GraphicsLayer';
 import Sketch from 'esri/widgets/Sketch';
 import Circle from 'esri/geometry/Circle';
 import geometryEngine from 'esri/geometry/geometryEngine';
-import Geoprocessor from 'esri/tasks/Geoprocessor';
 
 import config from 'config/config';
 
@@ -38,18 +38,9 @@ let _setMapLayers = null;
 let _analysisActiveToggle = null;
 let _storeAnalysis = null;
 
-// export const webmap = new WebMap({
-//   portalItem: {
-//     id: config.appConfig.webmapId
-//   }
-// });
 export const map = new Map({
   basemap: 'dark-gray'
 });
-
-// export const view = new MapView({
-//   map: webmap
-// });
 
 let latitude;
 let longitude;
@@ -129,7 +120,7 @@ export const circle = new Circle({
 export const stationMaker = (lon, lat) => {
   //TODO add custom color by company
   const stationCircle = new Circle({
-    radius: 200,
+    radius: 10,
     center: [lon, lat]
   });
   return stationCircle;
@@ -149,10 +140,19 @@ export const circleGraphic = new Graphic({
   symbol: fillSymbol
 });
 
+export const locateWidget = new Locate({
+  view: view,   // Attaches the Locate button to the view
+  // graphic: new Graphic({
+  //   // symbol: { type: 'simple-marker' }  // overwrites the default symbol used for the
+  //   // graphic placed at the location of the user when found
+  // })
+});
+
+
+const availableBikes = [];
 export const getCaBiBikes = () => {
   cabi.search().then(res => {
     // drawingLayer.graphics.removeAll(); TODO - add this back in
-    const availableBikes = [];
     // console.log(res.map(bike => bike.geometry.coordinates ));
     // res.forEach(bike => console.log(bike.geometry.coordinates ));
     res
@@ -167,59 +167,14 @@ export const getCaBiBikes = () => {
         });
         availableBikes.push(bikePoint);
       });
-      debugger
+      // debugger
+      // drawingLayer.graphics.addMany(availableBikes);
       drawingLayer.graphics.addMany(availableBikes);
       // .catch(err => console.log(err));
   });
 };
 
-/*
-  Start of layer visability + opacity manipulation
-*/
-// export const getLayerIDs = () => {
-//   const layerIDs = webmap.layers.items.map(layer => {
-//     return layer.id;
-//   });
-//   return layerIDs;
-// };
 
-// export const getLayerByID = id => {
-//   return webmap.findLayerById(id);
-// };
-
-// export const updateLayerFromLayerController = (key, value, id) => {
-//   const layerToUpdate = webmap.findLayerById(id);
-//   if (layerToUpdate) {
-//     layerToUpdate[key] = value;
-//   }
-// };
-
-export const geoprocessor = () => {
-  // TODO make it accept in filters here, then we put the component
-  const state = store.getState();
-  if (state.mapview.selectedParcels.features.length > 0) {
-    _analysisActiveToggle(true);
-
-    const url = config.appConfig.gpServiceURL;
-    const gp = new Geoprocessor(url);
-    const params = {
-      ...state.screeningTool.featureValues,
-      Parcels: state.mapview.selectedParcels
-    };
-    gp.submitJob(params).then(results => {
-      _analysisActiveToggle(false); //TODO - use this for spinner
-      console.log(results);
-      console.log(state.mapview.analysisIsActive);
-
-      if (results.jobStatus !== 'job-failed') {
-        const jobId = results.jobId;
-        gp.getResultData(jobId, 'Results').then(result => {
-          _storeAnalysis(result);
-        });
-      }
-    });
-  }
-};
 
 /*
   Attaches the esri view to passed dom node.
@@ -237,9 +192,11 @@ export const initialize = container => {
   view
     .when()
     .then(_ => {
-      view.ui.add([legend], 'top-right');
+      // view.ui.add([legend], 'top-right');
       view.ui.move(['zoom'], 'top-right');
       view.graphics.add(circleGraphic);
+      view.graphics.addMany(availableBikes);
+      view.ui.add(locateWidget, 'top-right');
 
       // view.on('click', _handleViewClick);
 
@@ -248,7 +205,6 @@ export const initialize = container => {
     })
     .catch(noop);
   // webmap.addMany([selectedParcelsGraphicsLayer, parcelSelectionGraphicsLayer]);
-  // console.log(latitude, longitude);
   return () => {
     view.container = null;
   };
@@ -466,6 +422,5 @@ sketch.on('create, update', event => {
 });
 
 window.sketch = sketch;
-// window.map = webmap;
 window.map = map;
 window.view = view;
