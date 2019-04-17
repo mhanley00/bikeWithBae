@@ -101,6 +101,14 @@ export const drawingLayer = new GraphicsLayer({
   id: 'customDrawing',
   title: 'Custom Drawing'
 });
+export const cabiLayer = new GraphicsLayer({
+  id: 'cabi-bikes',
+  title: 'Capital Bikeshare'
+});
+export const jumpLayer = new GraphicsLayer({
+  id: 'jump-bikes',
+  title: 'JUMP'
+});
 /*
   Drawing Utilities
 */
@@ -194,7 +202,7 @@ export const getCaBiBikes = () => {
         });
         availableBikes.push(bikePoint);
       });
-      drawingLayer.graphics.addMany(availableBikes);
+      cabiLayer.graphics.addMany(availableBikes);
       // .catch(err => console.log(err));
   });
 };
@@ -218,12 +226,14 @@ export const getJumpBikes = () => {
         availableBikes.push(bikePoint);
       });
       
-      drawingLayer.graphics.addMany(availableBikes);
+      jumpLayer.graphics.addMany(availableBikes);
+      const graphics = jumpLayer.graphics.toArray();
+      console.log(graphics);
       // .catch(err => console.log(err));
   });
 };
 
-export const graphics = drawingLayer.graphics.toArray(); //should give us a list of the graphics on the map
+// export const graphics = drawingLayer.graphics.toArray(); //should give us a list of the graphics on the map
 
 
 /*
@@ -245,13 +255,17 @@ export const initialize = container => {
     .then(_ => {
       view.ui.move(['zoom'], 'top-right');
       view.ui.add(locateWidget, 'top-right');
-      view.graphics.add(circleGraphic);
-      view.graphics.addMany(availableBikes).then(console.log('graphics', graphics));
-
+      // view.graphics.add(circleGraphic);
+      // view.graphics.addMany(availableBikes)
+      
       // view.on('click', _handleViewClick);
     })
     .catch(noop);
-  // webmap.addMany([selectedParcelsGraphicsLayer, parcelSelectionGraphicsLayer]);
+    // webmap.addMany([selectedParcelsGraphicsLayer, parcelSelectionGraphicsLayer]);
+    map.add(drawingLayer);
+    map.add(cabiLayer);
+    map.add(graphics);
+    // console.log('graphics', graphics);
   return () => {
     view.container = null;
   };
