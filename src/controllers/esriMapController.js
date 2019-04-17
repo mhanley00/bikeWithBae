@@ -24,6 +24,7 @@ import {
 import store from '../store/store';
 
 import cabi from '../bikewithbaecode/api/cabi';
+import jump from '../bikewithbaecode/api/jump';
 
 //Declare local functions;
 const noop = () => {};
@@ -159,6 +160,18 @@ export const cabiIcon = {
   // angle: 180,
   size: 15
 };
+export const jumpIcon = {
+  type: 'simple-marker',
+  path: 'M15.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM5 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5zm5.8-10l2.4-2.4.8.8c1.3 1.3 3 2.1 5.1 2.1V9c-1.5 0-2.7-.6-3.6-1.5l-1.9-1.9c-.5-.4-1-.6-1.6-.6s-1.1.2-1.4.6L7.8 8.4c-.4.4-.6.9-.6 1.4 0 .6.2 1.1.6 1.4L11 14v5h2v-6.2l-2.2-2.3zM19 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z',
+  // color: '#f00',
+  color: '#ff6700',
+  outline: {
+    color: '#000000',
+    width: 0.05
+  },
+  // angle: 180,
+  size: 15
+};
 const availableBikes = [];
 export const getCaBiBikes = () => {
   cabi.search().then(res => {
@@ -172,15 +185,35 @@ export const getCaBiBikes = () => {
             bike.geometry.coordinates[0],
             bike.geometry.coordinates[1]
           ),
-          // symbol: fillSymbol 
           symbol: cabiIcon 
-          // TODO config.appConfig.cabiStation > make red
           // attributes //TODO add avail bikes/stations so can add to popup
         });
         availableBikes.push(bikePoint);
       });
-      // debugger
-      // drawingLayer.graphics.addMany(availableBikes);
+      drawingLayer.graphics.addMany(availableBikes);
+      // .catch(err => console.log(err));
+  });
+};
+export const getJumpBikes = () => {
+  jump.search().then(res => {
+    
+    res
+      .forEach(bike => {
+
+        const bikePoint = new Graphic({
+          geometry: stationMaker(
+            bike.lon,
+            bike.lat
+          ),
+          symbol: jumpIcon,
+          attributes: {
+            charge: bike.jump_ebike_battery_level,
+            id: bike.bike_id
+          }
+        });
+        availableBikes.push(bikePoint);
+      });
+      
       drawingLayer.graphics.addMany(availableBikes);
       // .catch(err => console.log(err));
   });
@@ -198,22 +231,19 @@ export const getCaBiBikes = () => {
 export const initialize = container => {
   getUserLocation();
   getCaBiBikes();
+  getJumpBikes();
 
   view.container = container;
 
   view
     .when()
     .then(_ => {
-      // view.ui.add([legend], 'top-right');
       view.ui.move(['zoom'], 'top-right');
+      view.ui.add(locateWidget, 'top-right');
       view.graphics.add(circleGraphic);
       view.graphics.addMany(availableBikes);
-      view.ui.add(locateWidget, 'top-right');
 
       // view.on('click', _handleViewClick);
-
-      // _setMapLayers(getLayerIDs());
-      // console.log(webmap.layers.items.map(layer => layer.title));
     })
     .catch(noop);
   // webmap.addMany([selectedParcelsGraphicsLayer, parcelSelectionGraphicsLayer]);
