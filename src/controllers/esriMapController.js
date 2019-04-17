@@ -149,7 +149,7 @@ export const circleGraphic = new Graphic({
 });
 
 export const locateWidget = new Locate({
-  view: view,   // Attaches the Locate button to the view
+  view: view, // Attaches the Locate button to the view
   // graphic: new Graphic({
   //   // symbol: { type: 'simple-marker' }  // overwrites the default symbol used for the
   //   // graphic placed at the location of the user when found
@@ -171,7 +171,7 @@ export const cabiIcon = {
 export const jumpIcon = {
   type: 'simple-marker',
   path: 'M15.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM5 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5zm5.8-10l2.4-2.4.8.8c1.3 1.3 3 2.1 5.1 2.1V9c-1.5 0-2.7-.6-3.6-1.5l-1.9-1.9c-.5-.4-1-.6-1.6-.6s-1.1.2-1.4.6L7.8 8.4c-.4.4-.6.9-.6 1.4 0 .6.2 1.1.6 1.4L11 14v5h2v-6.2l-2.2-2.3zM19 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z',
-  
+
   color: '#ff6700',
   outline: {
     color: '#000000',
@@ -203,13 +203,13 @@ export const getCaBiBikes = () => {
         });
         availableBikes.push(bikePoint);
       });
-      cabiLayer.graphics.addMany(availableBikes);
-      // .catch(err => console.log(err));
+    cabiLayer.graphics.addMany(availableBikes);
+    // .catch(err => console.log(err));
   });
 };
 export const getJumpBikes = () => {
   jump.search().then(res => {
-    
+
     res
       .forEach(bike => {
 
@@ -227,11 +227,9 @@ export const getJumpBikes = () => {
         });
         availableBikes.push(bikePoint);
       });
-      
-      jumpLayer.graphics.addMany(availableBikes);
-      const graphics = jumpLayer.graphics.toArray(); //list of all the graphics in the map
-      // console.log(graphics);
-      // .catch(err => console.log(err));
+
+    jumpLayer.graphics.addMany(availableBikes);
+    // .catch(err => console.log(err));
   });
 };
 
@@ -262,13 +260,23 @@ export const initialize = container => {
       view.ui.add(locateWidget, 'top-right');
       // view.graphics.add(circleGraphic);
       // view.graphics.addMany(availableBikes)
-      
+
       // view.on('click', _handleViewClick);
-      view.on('click', handleClick);
+      // view.on('click', handleClick);
+      view.on('pointer-move', function (event) {
+        view.hitTest(event).then(function (response) {
+          // check if a feature is returned from the hurricanesLayer
+          // do something with the result graphic
+          const graphic = response.results.filter(function (result) {
+            console.log(results.graphic);
+            return result.graphic.layer === jumpLayer;
+          })[0].graphic;
+        });
+      });
     })
     .catch(noop);
-    map.addMany([drawingLayer, cabiLayer, jumpLayer]);
-    
+  map.addMany([drawingLayer, cabiLayer, jumpLayer]);
+
   return () => {
     view.container = null;
   };
@@ -331,7 +339,9 @@ export const getSelectedParcelFeatures = () => {
   @container: mounted html dom node
 */
 export const createInsetMap = (insetMapOptions, container) => {
-  const { visibleLayers } = insetMapOptions;
+  const {
+    visibleLayers
+  } = insetMapOptions;
   const insetMap = new WebMap({
     portalItem: {
       id: config.appConfig.webmapId
@@ -348,7 +358,7 @@ export const createInsetMap = (insetMapOptions, container) => {
         visibleLayers.includes(layer.id) || visibleLayers.includes(layer.title);
     });
     insetView.ui.empty('top-left');
-    insetView.on(['drag', 'key-down', 'mouse-wheel', 'double-click'], function(
+    insetView.on(['drag', 'key-down', 'mouse-wheel', 'double-click'], function (
       event
     ) {
       event.stopPropagation();
