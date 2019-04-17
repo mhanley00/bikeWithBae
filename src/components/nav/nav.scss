@@ -5,13 +5,20 @@
   height: 400px;
   padding: 20px;
   margin: 95px 20px 20px 15px;
+  border-radius: 8px;
   overflow: auto;
-  background: violet;
-
+  background: #fafafa;
+  flex-direction: row !important;
+  &[class^='Mui'] {
+  flex-direction: row !important;
+  }
   .button {
     margin-top: 15px;
     width: 80px;
-    background: #325e3e;
+    background: #03a9f4;
+    &:hover {
+      background: #03a9f48c;
+    }
     color: white;
     &[class^='Mui'] {
       box-sizing: content-box !important;
@@ -28,7 +35,7 @@
   top: 0px;
   left: 0px;
   position: absolute;
-  background: #325e3e;
+  background: #03a9f4;
 
   .card-header {
     vertical-align: middle;

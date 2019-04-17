@@ -7,6 +7,7 @@ import {
   geoprocessor
 } from '../../controllers/esriMapController';
 
+
 //Components
 import Dropdown from './dropdown';
 // import ParcelSelector from '../parcelSelector/parcelSelector';
@@ -64,7 +65,11 @@ export class Nav extends Component {
   render() {
     return (
       <div className='nav-container'>
-        <div className='nav-header'></div>
+        <div className='nav-header'>
+        <Typography variant='h5' component='h3'>
+        🚲Bike With Bae🚲
+        </Typography>
+        </div>
         <div>
           <FormControl variant='outlined'>
             {this.state.filters.map(definition => (
@@ -84,7 +89,7 @@ export class Nav extends Component {
           className='button'
           onClick={this.handleClick}
         >
-          Execute
+          Find Bikes
         </Button>
 
       </div>

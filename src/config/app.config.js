@@ -139,26 +139,26 @@ export const appConfig = {
             label: 'Jump',
             value: 'Jump'
           },
-          {
-            label: 'Lime',
-            value: 'Lime'
-          },
-          {
-            label: 'Lyft', //need to ask about API for this one
-            value: 'Lyft'
-          },
-          {
-            label: 'Skip',
-            value: 'Skip'
-          },
-          {
-            label: 'Bird',
-            value: 'Bird'
-          },
-          {
-            label: 'Spin', //Do not see any in Citymapper
-            value: 'Spin'
-          }
+          // {
+          //   label: 'Lime',
+          //   value: 'Lime'
+          // },
+          // {
+          //   label: 'Lyft', //need to ask about API for this one
+          //   value: 'Lyft'
+          // },
+          // {
+          //   label: 'Skip',
+          //   value: 'Skip'
+          // },
+          // {
+          //   label: 'Bird',
+          //   value: 'Bird'
+          // },
+          // {
+          //   label: 'Spin', //Do not see any in Citymapper
+          //   value: 'Spin'
+          // }
         ]
       },
       required: false
