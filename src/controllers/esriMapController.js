@@ -230,12 +230,16 @@ export const getJumpBikes = () => {
       
       jumpLayer.graphics.addMany(availableBikes);
       const graphics = jumpLayer.graphics.toArray(); //list of all the graphics in the map
-      console.log(graphics);
+      // console.log(graphics);
       // .catch(err => console.log(err));
   });
 };
 
-
+export const handleClick = event => {
+  const graphics = jumpLayer.graphics.toArray()
+  console.log(graphics);
+  console.log(event);
+}
 
 /*
   Attaches the esri view to passed dom node.
@@ -260,13 +264,11 @@ export const initialize = container => {
       // view.graphics.addMany(availableBikes)
       
       // view.on('click', _handleViewClick);
+      view.on('click', handleClick);
     })
     .catch(noop);
-    // webmap.addMany([selectedParcelsGraphicsLayer, parcelSelectionGraphicsLayer]);
-    map.add(drawingLayer);
-    map.add(cabiLayer);
-    map.add(jumpLayer);
-    // console.log('graphics', graphics);
+    map.addMany([drawingLayer, cabiLayer, jumpLayer]);
+    
   return () => {
     view.container = null;
   };
