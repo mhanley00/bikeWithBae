@@ -193,6 +193,7 @@ export const getCaBiBikes = () => {
           ),
           symbol: cabiIcon,
           attributes: {
+            brand: 'Capital Bikeshare',
             station: bike.properties.station.name,
             'Available Bikes': bike.properties.station.bikes_available,
             'Available Docks': bike.properties.station.docks_available,
@@ -219,6 +220,7 @@ export const getJumpBikes = () => {
           ),
           symbol: jumpIcon,
           attributes: {
+            brand: 'JUMP',
             charge: bike.jump_ebike_battery_level,
             id: bike.bike_id
           }
@@ -227,13 +229,12 @@ export const getJumpBikes = () => {
       });
       
       jumpLayer.graphics.addMany(availableBikes);
-      const graphics = jumpLayer.graphics.toArray();
+      const graphics = jumpLayer.graphics.toArray(); //list of all the graphics in the map
       console.log(graphics);
       // .catch(err => console.log(err));
   });
 };
 
-// export const graphics = drawingLayer.graphics.toArray(); //should give us a list of the graphics on the map
 
 
 /*
@@ -264,7 +265,7 @@ export const initialize = container => {
     // webmap.addMany([selectedParcelsGraphicsLayer, parcelSelectionGraphicsLayer]);
     map.add(drawingLayer);
     map.add(cabiLayer);
-    map.add(graphics);
+    map.add(jumpLayer);
     // console.log('graphics', graphics);
   return () => {
     view.container = null;
