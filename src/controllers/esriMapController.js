@@ -101,7 +101,6 @@ export const drawingLayer = new GraphicsLayer({
   id: 'customDrawing',
   title: 'Custom Drawing'
 });
-
 /*
   Drawing Utilities
 */
@@ -178,7 +177,7 @@ export const getCaBiBikes = () => {
     // drawingLayer.graphics.removeAll(); TODO - add this back in
     res
       .forEach(bike => {
-        console.log(bike);
+        // console.log(bike);
         const bikePoint = new Graphic({
           geometry: stationMaker(
             bike.geometry.coordinates[0],
@@ -224,6 +223,7 @@ export const getJumpBikes = () => {
   });
 };
 
+export const graphics = drawingLayer.graphics.toArray(); //should give us a list of the graphics on the map
 
 
 /*
@@ -246,7 +246,7 @@ export const initialize = container => {
       view.ui.move(['zoom'], 'top-right');
       view.ui.add(locateWidget, 'top-right');
       view.graphics.add(circleGraphic);
-      view.graphics.addMany(availableBikes);
+      view.graphics.addMany(availableBikes).then(console.log('graphics', graphics));
 
       // view.on('click', _handleViewClick);
     })
