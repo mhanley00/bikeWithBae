@@ -8,6 +8,7 @@ import GraphicsLayer from 'esri/layers/GraphicsLayer';
 import Sketch from 'esri/widgets/Sketch';
 import Circle from 'esri/geometry/Circle';
 import geometryEngine from 'esri/geometry/geometryEngine';
+import PopupTemplate from 'esri/PopupTemplate';
 
 import config from 'config/config';
 
@@ -149,7 +150,7 @@ export const circleGraphic = new Graphic({
 });
 
 export const locateWidget = new Locate({
-  view: view, // Attaches the Locate button to the view
+  view: view // Attaches the Locate button to the view
   // graphic: new Graphic({
   //   // symbol: { type: 'simple-marker' }  // overwrites the default symbol used for the
   //   // graphic placed at the location of the user when found
@@ -158,7 +159,8 @@ export const locateWidget = new Locate({
 
 export const cabiIcon = {
   type: 'simple-marker',
-  path: 'M15.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM5 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5zm5.8-10l2.4-2.4.8.8c1.3 1.3 3 2.1 5.1 2.1V9c-1.5 0-2.7-.6-3.6-1.5l-1.9-1.9c-.5-.4-1-.6-1.6-.6s-1.1.2-1.4.6L7.8 8.4c-.4.4-.6.9-.6 1.4 0 .6.2 1.1.6 1.4L11 14v5h2v-6.2l-2.2-2.3zM19 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z',
+  path:
+    'M15.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM5 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5zm5.8-10l2.4-2.4.8.8c1.3 1.3 3 2.1 5.1 2.1V9c-1.5 0-2.7-.6-3.6-1.5l-1.9-1.9c-.5-.4-1-.6-1.6-.6s-1.1.2-1.4.6L7.8 8.4c-.4.4-.6.9-.6 1.4 0 .6.2 1.1.6 1.4L11 14v5h2v-6.2l-2.2-2.3zM19 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z',
   color: '#f12e13',
   // color: '#f00',
   outline: {
@@ -170,7 +172,8 @@ export const cabiIcon = {
 };
 export const jumpIcon = {
   type: 'simple-marker',
-  path: 'M15.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM5 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5zm5.8-10l2.4-2.4.8.8c1.3 1.3 3 2.1 5.1 2.1V9c-1.5 0-2.7-.6-3.6-1.5l-1.9-1.9c-.5-.4-1-.6-1.6-.6s-1.1.2-1.4.6L7.8 8.4c-.4.4-.6.9-.6 1.4 0 .6.2 1.1.6 1.4L11 14v5h2v-6.2l-2.2-2.3zM19 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z',
+  path:
+    'M15.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM5 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5zm5.8-10l2.4-2.4.8.8c1.3 1.3 3 2.1 5.1 2.1V9c-1.5 0-2.7-.6-3.6-1.5l-1.9-1.9c-.5-.4-1-.6-1.6-.6s-1.1.2-1.4.6L7.8 8.4c-.4.4-.6.9-.6 1.4 0 .6.2 1.1.6 1.4L11 14v5h2v-6.2l-2.2-2.3zM19 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z',
 
   color: '#ff6700',
   outline: {
@@ -182,51 +185,55 @@ export const jumpIcon = {
 const availableBikes = [];
 export const getCaBiBikes = () => {
   cabi.search().then(res => {
-    // drawingLayer.graphics.removeAll(); TODO - add this back in
-    res
-      .forEach(bike => {
-        // console.log(bike);
-        const bikePoint = new Graphic({
-          geometry: stationMaker(
-            bike.geometry.coordinates[0],
-            bike.geometry.coordinates[1]
-          ),
-          symbol: cabiIcon,
-          attributes: {
-            brand: 'Capital Bikeshare',
-            station: bike.properties.station.name,
-            'Available Bikes': bike.properties.station.bikes_available,
-            'Available Docks': bike.properties.station.docks_available,
-            'Bike Angel Points': bike.properties.bike_angels.score,
-            'BA?': bike.properties.bike_angels_action
-          }
-        });
-        availableBikes.push(bikePoint);
+
+    res.forEach(bike => {
+
+      const bikePoint = new Graphic({
+        geometry: stationMaker(
+          bike.geometry.coordinates[0],
+          bike.geometry.coordinates[1]
+        ),
+        symbol: cabiIcon,
+        attributes: {
+          brand: 'Capital Bikeshare',
+          station: bike.properties.station.name,
+          'Available Bikes': bike.properties.station.bikes_available,
+          'Available Docks': bike.properties.station.docks_available,
+          // 'Bike Angel Points': bike.properties.bike_angels.score,
+          'BA?': bike.properties.bike_angels_action
+        },
+        popupTemplate: new PopupTemplate({
+          title: 'Capital Bikeshare',
+          content: `<b>${bike.properties.station.name}</b>
+          <br>Available Bikes: ${bike.properties.station.bikes_available}
+          <br>Available Docks: ${bike.properties.station.docks_available} `
+        })
       });
+      availableBikes.push(bikePoint);
+    });
     cabiLayer.graphics.addMany(availableBikes);
     // .catch(err => console.log(err));
   });
 };
 export const getJumpBikes = () => {
   jump.search().then(res => {
-
-    res
-      .forEach(bike => {
-
-        const bikePoint = new Graphic({
-          geometry: stationMaker(
-            bike.lon,
-            bike.lat
-          ),
-          symbol: jumpIcon,
-          attributes: {
-            brand: 'JUMP',
-            charge: bike.jump_ebike_battery_level,
-            id: bike.bike_id
-          }
-        });
-        availableBikes.push(bikePoint);
+    res.forEach(bike => {
+      const bikePoint = new Graphic({
+        geometry: stationMaker(bike.lon, bike.lat),
+        symbol: jumpIcon,
+        attributes: {
+          brand: 'JUMP',
+          charge: bike.jump_ebike_battery_level,
+          id: bike.bike_id
+        },
+        popupTemplate: new PopupTemplate({
+          title: 'JUMP Bike',
+          content: `Charge Level: ${bike.jump_ebike_battery_level}
+          <br>Bike ID: ${bike.bike_id}`
+        })
       });
+      availableBikes.push(bikePoint);
+    });
 
     jumpLayer.graphics.addMany(availableBikes);
     // .catch(err => console.log(err));
@@ -234,10 +241,10 @@ export const getJumpBikes = () => {
 };
 
 export const handleClick = event => {
-  const graphics = jumpLayer.graphics.toArray()
+  const graphics = jumpLayer.graphics.toArray();
   console.log(graphics);
   console.log(event);
-}
+};
 
 /*
   Attaches the esri view to passed dom node.
@@ -263,16 +270,7 @@ export const initialize = container => {
 
       // view.on('click', _handleViewClick);
       // view.on('click', handleClick);
-      view.on('pointer-move', function (event) {
-        view.hitTest(event).then(function (response) {
-          // check if a feature is returned from the hurricanesLayer
-          // do something with the result graphic
-          const graphic = response.results.filter(function (result) {
-            console.log(results.graphic);
-            return result.graphic.layer === jumpLayer;
-          })[0].graphic;
-        });
-      });
+
     })
     .catch(noop);
   map.addMany([drawingLayer, cabiLayer, jumpLayer]);
@@ -339,9 +337,7 @@ export const getSelectedParcelFeatures = () => {
   @container: mounted html dom node
 */
 export const createInsetMap = (insetMapOptions, container) => {
-  const {
-    visibleLayers
-  } = insetMapOptions;
+  const { visibleLayers } = insetMapOptions;
   const insetMap = new WebMap({
     portalItem: {
       id: config.appConfig.webmapId
@@ -358,7 +354,7 @@ export const createInsetMap = (insetMapOptions, container) => {
         visibleLayers.includes(layer.id) || visibleLayers.includes(layer.title);
     });
     insetView.ui.empty('top-left');
-    insetView.on(['drag', 'key-down', 'mouse-wheel', 'double-click'], function (
+    insetView.on(['drag', 'key-down', 'mouse-wheel', 'double-click'], function(
       event
     ) {
       event.stopPropagation();

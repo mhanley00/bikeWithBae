@@ -5,6 +5,6 @@ export default {
   search: function() {
     return axios.get(BASEURL)
     .then(function(response){ //console.log(response.data.features);
-    return response.data.features});
+    return response.data.features;});
   }
 };
