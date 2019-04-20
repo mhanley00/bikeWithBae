@@ -6,8 +6,6 @@ import { setGPParameterValue } from 'reducers/screeningTool/actions';
 //Material UI Components
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import FormLabel from '@material-ui/core/FormLabel';
-import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
@@ -24,65 +22,55 @@ const styles = theme => ({
   //       >
 });
 
-class CheckboxesGroup extends Component {
+class BikeBrand extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      value: props.definition.input.inputs[0].value || null,
-      labelWidth: 0
+      checked: this.props.checked,
     };
-    this.props.setGPParameterValue(
-      props.definition.gpServiceParamKey,
-      this.state.checked
-    );
+    // this.props.setGPParameterValue(
+    //   props.definition.gpServiceParamKey,
+    //   this.state.checked
+    // );
   }
   handleChange = event => {
-    const { checked } = event.target;
-    const { definition } = this.props;
+    const selected = !this.state.checked;
+    this.setState({checked: selected});
+    // const { checked } = event.target;
+    // const { definition } = this.props;
 
-    this.setState({
-      checked //SET CHECKED INSTEAD OF VALUE
-    });
+    // this.setState({
+    //   checked //SET CHECKED INSTEAD OF VALUE
+    // });
 
-    this.props.setGPParameterValue(
-      definition.gpServiceParamKey,
-      this.state.checked /// MIGHT NEED TO KEEP AS VALUE FOR API CALL
-    );
+    // this.props.setGPParameterValue(
+    //   definition.gpServiceParamKey,
+    //   this.state.checked /// MIGHT NEED TO KEEP AS VALUE FOR API CALL
+    // );
   };
 
   render() {
     const { classes } = this.props;
-    const { definition } = this.props;
+    const { label, key } = this.props;
 
     return (
       <div className={classes.root}>
-        <FormLabel component='legend'>
-          Select Shared Vehicle Companies
-        </FormLabel>
-        <FormGroup>
-          {definition.input.inputs.map(option => (
             <FormControlLabel
               control={
                 <Checkbox
-                  value={option.value}
-                  key={option.label}
-                  checked={option.checked}
+                  value={label}
+                  key={key}
+                  checked={this.state.checked}
                   onChange={this.handleChange}
                 />
               }
-              label={option.label}
+              label={label}
             />
-          ))}
-        </FormGroup>
       </div>
     );
   }
 }
-
-CheckboxesGroup.propTypes = {
-  classes: PropTypes.object.isRequired
-};
 
 const mapDispatchToProps = dispatch => ({
   setGPParameterValue: (gpServiceParamKey, checked) => {
@@ -90,5 +78,5 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(null, mapDispatchToProps)(withStyles(styles, { withTheme: true })(CheckboxesGroup));
+export default connect(null, mapDispatchToProps)(withStyles(styles, { withTheme: true })(BikeBrand));
 

@@ -10,7 +10,7 @@ import {
 
 //Components
 import Dropdown from './dropdown';
-import CheckboxesGroup from './checkbox';
+import CheckboxGroup from './checkboxGroup';
 
 //Importing Bike Share Config
 import config from 'config/config';
@@ -64,7 +64,7 @@ export class Nav extends Component {
         );
       case 'checkbox':
         return (
-          <CheckboxesGroup
+          <CheckboxGroup
             definition={definition}
           />
         );
