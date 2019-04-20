@@ -128,36 +128,46 @@ export const appConfig = {
     Brand: {
       name: 'Brand',
       label: 'Brand',
-      type: 'dropdown',
+      type: 'checkbox',
       input: {
         inputs: [
           {
             label: 'Capital Bikeshare', //CaBi + Jump are main bikes now, do not see Lime bikes in Citymapper
-            value: 'Capital Bikeshare'
+            value: 'Capital Bikeshare',
+            checked: true
           },
           {
             label: 'Jump',
-            value: 'Jump'
+            value: 'Jump',
+            checked: false
           },
           // {
           //   label: 'Lime',
-          //   value: 'Lime'
+          //   value: 'Lime',
+          // checked: true
           // },
           // {
           //   label: 'Lyft', //need to ask about API for this one
           //   value: 'Lyft'
+          // checked: true
+
           // },
           // {
           //   label: 'Skip',
-          //   value: 'Skip'
+          //   value: 'Skip',
+          // checked: true
+
           // },
           // {
           //   label: 'Bird',
-          //   value: 'Bird'
+          //   value: 'Bird',
+          // checked: true
+
           // },
           // {
           //   label: 'Spin', //Do not see any in Citymapper
-          //   value: 'Spin'
+          //   value: 'Spin',
+          // checked: true
           // }
         ]
       },

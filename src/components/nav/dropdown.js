@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { setGPParameterValue } from 'reducers/screeningTool/actions';
 
 //Material-UI components
-import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -41,7 +40,7 @@ export class DropDown extends Component {
     const { definition } = this.props;
     const {classes} = this.props;
     return (
-      <FormControl variant='outlined'>
+      <div>
         <Select
           value={this.state.value}
           onChange={this.handleChange}
@@ -65,7 +64,7 @@ export class DropDown extends Component {
             </MenuItem>
           ))}
         </Select>
-      </FormControl>
+        </div>
     );
   }
 }

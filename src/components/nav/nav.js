@@ -10,12 +10,13 @@ import {
 
 //Components
 import Dropdown from './dropdown';
-// import ParcelSelector from '../parcelSelector/parcelSelector';
+import CheckboxesGroup from './checkbox';
 
-//Client Feature Definition
+//Importing Bike Share Config
 import config from 'config/config';
 
 //Material-UI components
+import { withStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -23,13 +24,25 @@ import Button from '@material-ui/core/Button';
 //SASS
 import './nav.scss';
 
+const styles = theme => ({
+  button: {
+    // width: '275px',
+    // margin: '15px 25px'
+  },
+  root: {
+    display: 'flex',
+  },
+  formControl: {
+    margin: theme.spacing.unit * 3,
+  },
+});
+
 export class Nav extends Component {
   constructor(props) {
     super(props);
 
     const filters = [];
     config.appConfig.activeFilters.forEach( filterName => {
-      // console.log()
       if (config.appConfig.filters.hasOwnProperty(filterName)){
         filters.push(config.appConfig.filters[filterName]);
       }
@@ -49,7 +62,13 @@ export class Nav extends Component {
             definition={definition}
           />
         );
-      // break;
+      case 'checkbox':
+        return (
+          <CheckboxesGroup
+            definition={definition}
+          />
+        );
+      // break; //
       default:
         return null;
     }
@@ -63,6 +82,8 @@ export class Nav extends Component {
   };
 
   render() {
+    const { classes } = this.props;
+
     return (
       <div className='nav-container'>
         <div className='nav-header'>
@@ -107,4 +128,5 @@ const mapStateToProps = ({
 const mapDispatchToProps = () => ({
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Nav);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, { withTheme: true })(Nav));
+
