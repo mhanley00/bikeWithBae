@@ -16,7 +16,7 @@ const theme = createMuiTheme({
       main: '#325e3e'
     },
     secondary: {
-      main: '#ffffff'
+      main: '#263238'
     }
   },
   typography: {
@@ -26,12 +26,15 @@ const theme = createMuiTheme({
     MuiButton: {
       text: {
         background: '#325e3e',
-        color: 'white',
-        // height: 48,
-        // padding: '0 30px',
+        color: 'white'
+      }
+    },
+    MuiTypography: {
+      root: {
+        color: 'pink'
       }
     }
-  },
+  }
 });
 
 const renderApp = Component => {

@@ -167,7 +167,6 @@ export const cabiIcon = {
     color: '#ffffff',
     width: 0.05
   },
-  // angle: 180,
   size: 15
 };
 export const jumpIcon = {

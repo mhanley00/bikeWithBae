@@ -2,7 +2,7 @@ export const appConfig = {
   /*
     App Text
   */
-  APP_TITLE: 'Bike with Bae 🚲🚲',
+  APP_TITLE: '🚲Bike With Bae🚲',
 
   /*
     App Defaults

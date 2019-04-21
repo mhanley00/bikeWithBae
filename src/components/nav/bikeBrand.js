@@ -13,13 +13,6 @@ const styles = theme => ({
   root: {
     display: 'flex'
   }
-  // formControl: {
-  //   margin: theme.spacing.unit * 3
-  // } //WAS USED IN FormControl Component
-  // <FormControl
-  //       component='fieldset'
-  //       className={classes.formControl}
-  //       >
 });
 
 class BikeBrand extends Component {
@@ -29,25 +22,22 @@ class BikeBrand extends Component {
     this.state = {
       checked: this.props.checked,
     };
-    // this.props.setGPParameterValue(
-    //   props.definition.gpServiceParamKey,
-    //   this.state.checked
-    // );
+    const { label } = this.props;
+
+    this.props.setGPParameterValue(
+      label,
+      this.state.checked
+    );
   }
-  handleChange = event => {
+  handleChange = () => {
+    const { label } = this.props;
     const selected = !this.state.checked;
     this.setState({checked: selected});
-    // const { checked } = event.target;
-    // const { definition } = this.props;
 
-    // this.setState({
-    //   checked //SET CHECKED INSTEAD OF VALUE
-    // });
-
-    // this.props.setGPParameterValue(
-    //   definition.gpServiceParamKey,
-    //   this.state.checked /// MIGHT NEED TO KEEP AS VALUE FOR API CALL
-    // );
+    this.props.setGPParameterValue(
+      label,
+      selected
+    );
   };
 
   render() {

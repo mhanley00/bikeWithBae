@@ -88,7 +88,7 @@ export class Nav extends Component {
       <div className='nav-container'>
         <div className='nav-header'>
         <Typography variant='h5' component='h3'>
-        🚲Bike With Bae🚲
+        {config.appConfig.APP_TITLE}
         </Typography>
         </div>
         <div>
@@ -103,7 +103,6 @@ export class Nav extends Component {
             ))}
           </FormControl>
         </div>
-        {/* <ParcelSelector /> */}
         <Button
           variant='contained'
           href='#'

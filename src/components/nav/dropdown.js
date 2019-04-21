@@ -17,7 +17,7 @@ export class DropDown extends Component {
       labelWidth: 0
     };
     this.props.setGPParameterValue(
-      props.definition.gpServiceParamKey,
+      props.definition.name,
       this.state.value
     );
   }
@@ -25,13 +25,13 @@ export class DropDown extends Component {
   handleChange = event => {
     const { value } = event.target;
     const { definition } = this.props;
-
+console.log('def', definition.name);
     this.setState({
       value
     });
 
     this.props.setGPParameterValue(
-      definition.gpServiceParamKey,
+      definition.name,
       this.state.value
     );
   };

@@ -5,16 +5,19 @@ import BikeBrand from './bikeBrand';
 
 //Material UI components
 import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
 
-
+const styles = theme => ({
+  root: {
+    display: 'flex'
+  }
+});
 export class CheckboxGroup extends Component {
   constructor(props) {
     super(props);
 
-    const brand = props.definition;
-    // .options.map( option => option.label);
-    console.log(brand);
+    const brand = props.definition.name;
+
     this.state = {
       title: brand,
       checked: false
@@ -25,7 +28,6 @@ export class CheckboxGroup extends Component {
 
     return (
         <div>
-          {/* <Typography>{definition.text}</Typography> */}
           <List>
           {definition.input.inputs.map(option => {
               return <BikeBrand key={option.label} label={option.label} checked={option.checked}/>;
@@ -35,4 +37,4 @@ export class CheckboxGroup extends Component {
     );
   }
 }
-export default CheckboxGroup;
+export default withStyles(styles, { withTheme: true })(CheckboxGroup);
