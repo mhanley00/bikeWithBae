@@ -13,7 +13,7 @@ export class DropDown extends Component {
     super(props);
 
     this.state = {
-      value: props.definition.input.inputs[0].value || null,
+      value: props.definition.input.inputs[0].value,
       labelWidth: 0
     };
     this.props.setGPParameterValue(
@@ -25,14 +25,14 @@ export class DropDown extends Component {
   handleChange = event => {
     const { value } = event.target;
     const { definition } = this.props;
-console.log('def', definition.name);
+    
     this.setState({
       value
     });
 
     this.props.setGPParameterValue(
       definition.name,
-      this.state.value
+      value
     );
   };
 
