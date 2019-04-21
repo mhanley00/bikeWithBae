@@ -21,6 +21,7 @@ import {
   analysisActiveToggle,
   storeAnalysisResults
 } from '../reducers/mapview/actions';
+import { setGPParameterValue } from 'reducers/screeningTool/actions';
 
 import store from '../store/store';
 
@@ -29,6 +30,7 @@ import jump from '../bikewithbaecode/api/jump';
 
 //Declare local functions;
 const noop = () => {};
+let _getUserLocation = null;
 let _setManualParcelSelectionState = null;
 let _setParcelsSelection = null;
 let _clearParcels = null;
@@ -55,6 +57,13 @@ export const getUserLocation = () => {
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
         console.log(latitude, longitude);
+        // return [longitude, latitude];
+        store.dispatch(setGPParameterValue('user location', [longitude, latitude]));
+        const userCircle = new Circle({
+            radius: 1000,
+            center: [longitude, latitude]
+          });
+          searchRadius.graphics.add(userCircle);
       },
       error => {
         latitude = 'err-latitude';
@@ -75,30 +84,7 @@ export const legend = new Legend({
   view: view
 });
 
-/*
-  Layer for displaying the selected Parcels
-*/
-// export const selectedParcelsGraphicsLayer = new GraphicsLayer({
-//   id: 'selectedParcelsGraphicsLayer',
-//   title: 'Selected Parcels'
-// });
-
-/*
-  Layer for displaying the graphic which is used to query parcels
-*/
-// export const parcelSelectionGraphicsLayer = new GraphicsLayer({
-//   id: 'parcelSelectionGraphicsLayer',
-//   title: 'Parcel Query Geometry'
-// });
-
-/*
-  Drawing Utilities
-*/
-// export const sketch = new Sketch({
-//   view: view,
-//   layer: parcelSelectionGraphicsLayer
-// });
-export const drawingLayer = new GraphicsLayer({
+export const searchRadius = new GraphicsLayer({
   id: 'customDrawing',
   title: 'Custom Drawing'
 });
@@ -115,7 +101,7 @@ export const jumpLayer = new GraphicsLayer({
 */
 export const sketch = new Sketch({
   view,
-  layer: drawingLayer
+  layer: searchRadius
 });
 
 export const circle = new Circle({
@@ -127,7 +113,7 @@ export const circle = new Circle({
 //   center: [longitude, latitude]
 // });
 export const stationMaker = (lon, lat) => {
-  //TODO add custom color by company
+
   const stationCircle = new Circle({
     radius: 10,
     center: [lon, lat]
@@ -135,52 +121,25 @@ export const stationMaker = (lon, lat) => {
   return stationCircle;
 };
 export const fillSymbol = {
-  type: 'simple-fill', // autocasts as new SimpleFillSymbol()
+  type: 'simple-fill',
   color: [227, 139, 79, 0.8],
   outline: {
-    // autocasts as new SimpleLineSymbol()
+
     color: [255, 255, 255],
     width: 1
   }
 };
-// Add the geometry and symbol to a new graphic
+
 export const circleGraphic = new Graphic({
   geometry: circle,
   symbol: fillSymbol
 });
 
 export const locateWidget = new Locate({
-  view: view // Attaches the Locate button to the view
-  // graphic: new Graphic({
-  //   // symbol: { type: 'simple-marker' }  // overwrites the default symbol used for the
-  //   // graphic placed at the location of the user when found
-  // })
+  view: view
 });
 
-export const cabiIcon = {
-  type: 'simple-marker',
-  path:
-    'M15.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM5 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5zm5.8-10l2.4-2.4.8.8c1.3 1.3 3 2.1 5.1 2.1V9c-1.5 0-2.7-.6-3.6-1.5l-1.9-1.9c-.5-.4-1-.6-1.6-.6s-1.1.2-1.4.6L7.8 8.4c-.4.4-.6.9-.6 1.4 0 .6.2 1.1.6 1.4L11 14v5h2v-6.2l-2.2-2.3zM19 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z',
-  color: '#f12e13',
-  // color: '#f00',
-  outline: {
-    color: '#ffffff',
-    width: 0.05
-  },
-  size: 15
-};
-export const jumpIcon = {
-  type: 'simple-marker',
-  path:
-    'M15.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM5 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5zm5.8-10l2.4-2.4.8.8c1.3 1.3 3 2.1 5.1 2.1V9c-1.5 0-2.7-.6-3.6-1.5l-1.9-1.9c-.5-.4-1-.6-1.6-.6s-1.1.2-1.4.6L7.8 8.4c-.4.4-.6.9-.6 1.4 0 .6.2 1.1.6 1.4L11 14v5h2v-6.2l-2.2-2.3zM19 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z',
 
-  color: '#ff6700',
-  outline: {
-    color: '#000000',
-    width: 0.05
-  },
-  size: 15
-};
 const availableBikes = [];
 export const getCaBiBikes = () => {
   cabi.search().then(res => {
@@ -192,7 +151,7 @@ export const getCaBiBikes = () => {
           bike.geometry.coordinates[0],
           bike.geometry.coordinates[1]
         ),
-        symbol: cabiIcon,
+        symbol: config.appConfig.cabiIcon,
         attributes: {
           brand: 'Capital Bikeshare',
           station: bike.properties.station.name,
@@ -219,7 +178,7 @@ export const getJumpBikes = () => {
     res.forEach(bike => {
       const bikePoint = new Graphic({
         geometry: stationMaker(bike.lon, bike.lat),
-        symbol: jumpIcon,
+        symbol: config.appConfig.jumpIcon,
         attributes: {
           brand: 'JUMP',
           charge: bike.jump_ebike_battery_level,
@@ -239,11 +198,6 @@ export const getJumpBikes = () => {
   });
 };
 
-export const handleClick = event => {
-  const graphics = jumpLayer.graphics.toArray();
-  console.log(graphics);
-  console.log(event);
-};
 
 /*
   Attaches the esri view to passed dom node.
@@ -253,6 +207,7 @@ export const handleClick = event => {
   @container: mounted html dom node
 */
 export const initialize = container => {
+
   getUserLocation();
   getCaBiBikes();
   getJumpBikes();
@@ -264,15 +219,14 @@ export const initialize = container => {
     .then(_ => {
       view.ui.move(['zoom'], 'top-right');
       view.ui.add(locateWidget, 'top-right');
-      // view.graphics.add(circleGraphic);
+      view.graphics.add(circleGraphic);
       // view.graphics.addMany(availableBikes)
 
       // view.on('click', _handleViewClick);
-      // view.on('click', handleClick);
 
     })
     .catch(noop);
-  map.addMany([drawingLayer, cabiLayer, jumpLayer]);
+  map.addMany([searchRadius, cabiLayer, jumpLayer]);
 
   return () => {
     view.container = null;
@@ -395,6 +349,10 @@ export const createInsetMap = (insetMapOptions, container) => {
   });
 };
 
+
+// _getUserLocation = () => {
+//   store.dispatch(setGPParameterValue('user location', getUserLocation()));
+// };
 _setParcelsSelection = featureSet => {
   store.dispatch(setParcelsSelection(featureSet));
 };
@@ -423,20 +381,7 @@ _storeAnalysis = res => {
   store.dispatch(storeAnalysisResults(res));
 };
 
-_queryParcelsFromGeometry = geometry => {
-  return new Promise(resolve => {
-    const parcelLayer = webmap.layers.find(layer => {
-      return layer.title === 'Parcels (Zoom in to view)';
-    });
-    const query = parcelLayer.createQuery();
-    query.geometry = geometry;
-    query.returnGeometry = true;
-    query.outFields = ['*'];
-    parcelLayer.queryFeatures(query).then(featureSet => {
-      resolve(featureSet);
-    });
-  });
-};
+_queryParcelsFromGeometry = geometry => {};
 
 // _handleViewClick = event => {
 //   const state = store.getState();
