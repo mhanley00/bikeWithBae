@@ -63,7 +63,11 @@ export const getUserLocation = () => {
             radius: 1000,
             center: [longitude, latitude]
           });
-          searchRadius.graphics.add(userCircle);
+          const userRadius = new Graphic({
+            geometry: userCircle,
+            symbol: fillSymbol
+          })
+          searchRadius.graphics.add(userRadius);
       },
       error => {
         latitude = 'err-latitude';
@@ -85,8 +89,8 @@ export const legend = new Legend({
 });
 
 export const searchRadius = new GraphicsLayer({
-  id: 'customDrawing',
-  title: 'Custom Drawing'
+  id: 'serach-radius',
+  title: 'Search Radius'
 });
 export const cabiLayer = new GraphicsLayer({
   id: 'cabi-bikes',
