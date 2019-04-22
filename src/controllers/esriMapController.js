@@ -83,10 +83,10 @@ export const sketch = new Sketch({
   layer: searchRadius
 });
 
-export const circle = new Circle({
-  radius: 1000,
-  center: [-77.0369, 38.9072]
-});
+// export const circle = new Circle({
+//   radius: 1000,
+//   center: [-77.0369, 38.9072]
+// });
 
 export const stationMaker = (lon, lat) => {
   const stationCircle = new Circle({
@@ -104,31 +104,45 @@ export const fillSymbol = {
   }
 };
 
-export const circleGraphic = new Graphic({
-  geometry: circle,
-  symbol: fillSymbol
-});
+// export const circleGraphic = new Graphic({
+//   geometry: circle,
+//   symbol: fillSymbol
+// });
 
 export const locateWidget = new Locate({
   view: view
 });
 
+export const drawRadius = (r, lon, lat) => {
+  const circle = new Circle({
+    radius: r,
+    center: [lon, lat]
+  });
+  const userRadius = new Graphic({
+    geometry: circle,
+    symbol: fillSymbol
+  });
+  searchRadius.graphics.add(userRadius);
+};
 
-export const setRadius = (number) => {
+export const setRadius = (r) => {
     const state = store.getState();
     // if (state.screeningTool.featureValues.userlocation[0]) {
     if (state.screeningTool.featureValues.userLocation.length) {
+      const lon = state.screeningTool.featureValues.userLocation[0];
+      const lat = state.screeningTool.featureValues.userLocation[1];
       console.log(state.screeningTool.featureValues.userLocation);
       //Once we have the user location, remove the old circle
       // searchRadius.removeAll();
       // const newRadius = state.screeningTool.featureValues.Radius;
-      // //run gpservice update and dispatch to Redux
-      store.dispatch(setGPParameterValue('Radius', number));
+      // update and dispatch new radius value to Redux
+      store.dispatch(setGPParameterValue('Radius', r));
       console.log('i changed');
+      drawRadius(r, lon, lat);
     }
-    // else {
-    //   console.log('no location yet');
-    // }
+    else {
+      console.log('Where you at?');
+    }
   };
 export const getUserLocation = () => {
   const location = window.navigator && window.navigator.geolocation;
@@ -145,15 +159,8 @@ export const getUserLocation = () => {
         );
         // get radius from redux store/state here
         // setRadius(); //TODO pass in radius, or pass this as radius
-        const userCircle = new Circle({
-          radius: 1000,
-          center: [longitude, latitude]
-        });
-        const userRadius = new Graphic({
-          geometry: userCircle,
-          symbol: fillSymbol
-        });
-        searchRadius.graphics.add(userRadius);
+
+        // drawRadius(100, longitude, latitude);
       },
       error => {
         latitude = 'err-latitude';
@@ -238,7 +245,7 @@ export const initialize = container => {
     .then(_ => {
       view.ui.move(['zoom'], 'top-right');
       view.ui.add(locateWidget, 'top-right');
-      view.graphics.add(circleGraphic);
+      // view.graphics.add(circleGraphic);
       // view.graphics.addMany(availableBikes)
 
       // view.on('click', _handleViewClick);
