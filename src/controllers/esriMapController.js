@@ -182,6 +182,7 @@ export const haversine = (lon1, lat1, lon2, lat2) => {
 
 export const bikesSorter = () => {
   const sortedBikes = [];
+  const capitalBikeshare = 'Capital Bikeshare'; // TODO take from config
   // pass in array of graphics on the map, grab their lat/lon
   // get redux state of whether a bike brand is checked, if it's checked, add it to the array of total bikes
   // all conditionals?
@@ -190,13 +191,24 @@ export const bikesSorter = () => {
   sortedBikes.push(getAllBrandBikes(jumpLayer)); //index 1
 
   // if caBi bikes are checked in const state = store.getState();
-  sortedBikes[0].map( bike => {
-    const bikeLon = bike.geometry.center.longitude;
-    const bikeLat = bike.geometry.center.latitude;
-    console.log(haversine(bikeLon, bikeLat, -77.0369, 38.9072));
-  });
+  const state = store.getState();
 
-  // sortedBikes.sort(function(a, b) { 
+  // Once we have the user's location, grab from Redux and...
+  if (state.screeningTool.featureValues.userLocation.length) {
+    const lon = state.screeningTool.featureValues.userLocation[0];
+    const lat = state.screeningTool.featureValues.userLocation[1];
+    console.log(state.screeningTool.featureValues.userLocation);
+    if (state.screeningTool.featureValues.capitalBikeshare){
+      sortedBikes[0].map(bike => {
+        const bikeLon = bike.geometry.center.longitude;
+        const bikeLat = bike.geometry.center.latitude;
+        console.log(haversine(bikeLon, bikeLat, lon, lat));
+      });
+
+    }
+  }
+
+  // sortedBikes.sort(function(a, b) {
   //   return a.distance - b.distance;
   // });
   // }
@@ -245,7 +257,7 @@ export const getCaBiBikes = () => {
     });
     cabiLayer.graphics.addMany(availableBikes);
     layersFinished++;
-    if (layersFinished === 2){
+    if (layersFinished === 2) {
       bikesSorter();
     }
     // .catch(err => console.log(err));
@@ -274,7 +286,7 @@ export const getJumpBikes = () => {
 
     jumpLayer.graphics.addMany(availableBikes);
     layersFinished++;
-    if (layersFinished === 2){
+    if (layersFinished === 2) {
       bikesSorter();
     }
     // .catch(err => console.log(err));
