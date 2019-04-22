@@ -44,7 +44,6 @@ let _storeAnalysis = null;
 
 let latitude;
 let longitude;
-const availableBikes = [];
 
 export const map = new Map({
   basemap: 'dark-gray'
@@ -119,7 +118,6 @@ export const setRadius = r => {
 
   // Once we have the user's location, grab from Redux and...
   if (state.screeningTool.featureValues.userLocation.length) {
-
     const lon = state.screeningTool.featureValues.userLocation[0];
     const lat = state.screeningTool.featureValues.userLocation[1];
     console.log(state.screeningTool.featureValues.userLocation);
@@ -147,7 +145,6 @@ export const getUserLocation = () => {
         store.dispatch(
           setGPParameterValue('userLocation', [longitude, latitude])
         );
-
       },
       error => {
         latitude = 'err-latitude';
@@ -157,6 +154,13 @@ export const getUserLocation = () => {
     );
   }
 };
+
+/*
+Grab all available bikes on the map by brand/layer
+*/
+export const getAllBrandBikes = layer => {
+  return layer.graphics.items;
+};
 /*
 Formula to calculate distance between two sets of latitude + longitude
 */
@@ -165,17 +169,36 @@ export const haversine = (lon1, lat1, lon2, lat2) => {
   const earthRadius = 3958.8; // Radius of the earth in miles
   const p = Math.PI / 180;
   const c = Math.cos;
-  const a = 0.5 - c((lat2 - lat1) * p)/2 +
-          c(lat1 * p) * c(lat2 * p) *
-          (1 - c((lon2 - lon1) * p))/2;
-  const distance = (2 * earthRadius) * Math.asin(Math.sqrt(a));
+  const a =
+    0.5 -
+    c((lat2 - lat1) * p) / 2 +
+    (c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p))) / 2;
+  const distance = 2 * earthRadius * Math.asin(Math.sqrt(a));
 
   return distance;
 };
-console.log(haversine(-74.0060, 40.7128, -77.0369, 38.9072 ));
+console.log(haversine(-74.006, 40.7128, -77.0369, 38.9072));
 
 export const bikesSorter = () => {
+  const sortedBikes = [];
   // pass in array of graphics on the map, grab their lat/lon
+  // get redux state of whether a bike brand is checked, if it's checked, add it to the array of total bikes
+  // all conditionals?
+
+  sortedBikes.push(getAllBrandBikes(cabiLayer)); //index 0
+  sortedBikes.push(getAllBrandBikes(jumpLayer)); //index 1
+  
+  console.log(sortedBikes);
+  // sortedBikes[0].forEach( bike => {
+  //   console.log('pleeze', bike);
+  // });
+  // const cabiBikes = getAllBrandBikes(cabiLayer);
+  // cabiBikes.forEach( bike => {
+  //   return console.log(bike.geometry);
+  // });
+  // console.log(sortedBikes[0]);
+  // console.log(sortedBikes[1]);
+  // const jump = getAllBrandBikes(jumpLayer);
   // call haversine between userlocation (Redux) and each bike station
 };
 
@@ -183,6 +206,7 @@ export const bikesSorter = () => {
 Shared vehicle API calls + drawing + adding to layers
 */
 export const getCaBiBikes = () => {
+  const availableBikes = [];
   cabi.search().then(res => {
     res.forEach(bike => {
       const bikePoint = new Graphic({
@@ -213,6 +237,7 @@ export const getCaBiBikes = () => {
   });
 };
 export const getJumpBikes = () => {
+  const availableBikes = [];
   jump.search().then(res => {
     res.forEach(bike => {
       const bikePoint = new Graphic({
@@ -263,7 +288,7 @@ export const initialize = container => {
     })
     .catch(noop);
   map.addMany([searchRadius, cabiLayer, jumpLayer]);
-
+  bikesSorter();
   return () => {
     view.container = null;
   };
