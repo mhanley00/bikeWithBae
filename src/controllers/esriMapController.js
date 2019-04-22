@@ -157,7 +157,9 @@ export const getUserLocation = () => {
     );
   }
 };
-
+/*
+Formula to calculate distance between two sets of latitude + longitude
+*/
 export const haversine = (lon1, lat1, lon2, lat2) => {
   // Referenced Haversine formula solutions on Stack Overflow here: https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
   const earthRadius = 3958.8; // Radius of the earth in miles
@@ -166,10 +168,17 @@ export const haversine = (lon1, lat1, lon2, lat2) => {
   const a = 0.5 - c((lat2 - lat1) * p)/2 +
           c(lat1 * p) * c(lat2 * p) *
           (1 - c((lon2 - lon1) * p))/2;
+  const distance = (2 * earthRadius) * Math.asin(Math.sqrt(a));
 
-  return (2 * earthRadius) * Math.asin(Math.sqrt(a));
+  return distance;
 };
 console.log(haversine(-74.0060, 40.7128, -77.0369, 38.9072 ));
+
+export const bikesSorter = () => {
+  // pass in array of graphics on the map, grab their lat/lon
+  // call haversine between userlocation (Redux) and each bike station
+};
+
 /*
 Shared vehicle API calls + drawing + adding to layers
 */
