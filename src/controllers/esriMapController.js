@@ -178,7 +178,7 @@ export const haversine = (lon1, lat1, lon2, lat2) => {
 
   return distance;
 };
-console.log(haversine(-74.006, 40.7128, -77.0369, 38.9072));
+// console.log(haversine(-74.006, 40.7128, -77.0369, 38.9072));
 
 export const bikesSorter = () => {
   const sortedBikes = [];
@@ -188,13 +188,16 @@ export const bikesSorter = () => {
 
   sortedBikes.push(getAllBrandBikes(cabiLayer)); //index 0
   sortedBikes.push(getAllBrandBikes(jumpLayer)); //index 1
-  console.log(sortedBikes);
-  console.log(cabiLayer.graphics);
-  // debugger
-  // const state = store.getState();
-  // if (cabiLayer.graphics.items) {
-  // cabiLayer.graphics.items.forEach( bike => {
-  //   console.log('pleeze', bike);
+
+  // if caBi bikes are checked in const state = store.getState();
+  sortedBikes[0].map( bike => {
+    const bikeLon = bike.geometry.center.longitude;
+    const bikeLat = bike.geometry.center.latitude;
+    console.log(haversine(bikeLon, bikeLat, -77.0369, 38.9072));
+  });
+
+  // sortedBikes.sort(function(a, b) { 
+  //   return a.distance - b.distance;
   // });
   // }
   // sortedBikes[0].forEach( bike => {
