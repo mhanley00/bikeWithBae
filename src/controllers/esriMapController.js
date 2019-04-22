@@ -75,17 +75,12 @@ export const jumpLayer = new GraphicsLayer({
   title: 'JUMP'
 });
 /*
-Drawing Utilities
+Drawing Utilities TODO delete things you don't need
 */
 export const sketch = new Sketch({
   view,
   layer: searchRadius
 });
-
-// export const circle = new Circle({
-//   radius: 1000,
-//   center: [-77.0369, 38.9072]
-// });
 
 export const stationMaker = (lon, lat) => {
   const stationCircle = new Circle({
@@ -102,11 +97,6 @@ export const fillSymbol = {
     width: 1
   }
 };
-
-// export const circleGraphic = new Graphic({
-//   geometry: circle,
-//   symbol: fillSymbol
-// });
 
 export const locateWidget = new Locate({
   view: view
@@ -126,16 +116,20 @@ export const drawRadius = (r, lon, lat) => {
 
 export const setRadius = r => {
   const state = store.getState();
-  // if (state.screeningTool.featureValues.userlocation[0]) {
+
+  // Once we have the user's location, grab from Redux and...
   if (state.screeningTool.featureValues.userLocation.length) {
+
     const lon = state.screeningTool.featureValues.userLocation[0];
     const lat = state.screeningTool.featureValues.userLocation[1];
     console.log(state.screeningTool.featureValues.userLocation);
-    //Once we have the user location, remove the old circle
+
+    // Remove existing circle
     searchRadius.removeAll();
-    // update and dispatch new radius value to Redux
+
+    // Update and dispatch new radius value to Redux
     store.dispatch(setGPParameterValue('Radius', r));
-    console.log('i changed');
+    console.log('new radius coming right up');
     drawRadius(r, lon, lat);
   } else {
     console.log('Where you at?');
@@ -149,24 +143,36 @@ export const getUserLocation = () => {
       position => {
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
-        // console.log(latitude, longitude);
-        // return [longitude, latitude];
+
         store.dispatch(
           setGPParameterValue('userLocation', [longitude, latitude])
         );
-        // get radius from redux store/state here
-        // setRadius(); //TODO pass in radius, or pass this as radius
 
-        // drawRadius(100, longitude, latitude);
       },
       error => {
         latitude = 'err-latitude';
         longitude = 'err-longitude';
+        console.log(error);
       }
     );
   }
 };
 
+export const haversine = (lon1, lat1, lon2, lat2) => {
+  // Referenced Haversine formula solutions on Stack Overflow here: https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
+  const earthRadius = 3958.8; // Radius of the earth in miles
+  const p = Math.PI / 180;
+  const c = Math.cos;
+  const a = 0.5 - c((lat2 - lat1) * p)/2 +
+          c(lat1 * p) * c(lat2 * p) *
+          (1 - c((lon2 - lon1) * p))/2;
+
+  return (2 * earthRadius) * Math.asin(Math.sqrt(a));
+};
+console.log(haversine(-74.0060, 40.7128, -77.0369, 38.9072 ));
+/*
+Shared vehicle API calls + drawing + adding to layers
+*/
 export const getCaBiBikes = () => {
   cabi.search().then(res => {
     res.forEach(bike => {

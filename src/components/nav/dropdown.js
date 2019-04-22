@@ -38,7 +38,7 @@ export class DropDown extends Component {
     // TODO add conditional for whether the param is radius or riders, might need to dispatch at bottom?
     if (definition.name === 'Radius'){
       setRadius(value);
-      console.log('yes thank you');
+      console.log('thank you, next');
     }
   };
 
