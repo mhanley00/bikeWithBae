@@ -42,6 +42,7 @@ let _setMapLayers = null;
 let _analysisActiveToggle = null;
 let _storeAnalysis = null;
 
+let layersFinished = 0;
 let latitude;
 let longitude;
 
@@ -187,8 +188,15 @@ export const bikesSorter = () => {
 
   sortedBikes.push(getAllBrandBikes(cabiLayer)); //index 0
   sortedBikes.push(getAllBrandBikes(jumpLayer)); //index 1
-  
   console.log(sortedBikes);
+  console.log(cabiLayer.graphics);
+  // debugger
+  // const state = store.getState();
+  // if (cabiLayer.graphics.items) {
+  // cabiLayer.graphics.items.forEach( bike => {
+  //   console.log('pleeze', bike);
+  // });
+  // }
   // sortedBikes[0].forEach( bike => {
   //   console.log('pleeze', bike);
   // });
@@ -233,6 +241,10 @@ export const getCaBiBikes = () => {
       availableBikes.push(bikePoint);
     });
     cabiLayer.graphics.addMany(availableBikes);
+    layersFinished++;
+    if (layersFinished === 2){
+      bikesSorter();
+    }
     // .catch(err => console.log(err));
   });
 };
@@ -258,6 +270,10 @@ export const getJumpBikes = () => {
     });
 
     jumpLayer.graphics.addMany(availableBikes);
+    layersFinished++;
+    if (layersFinished === 2){
+      bikesSorter();
+    }
     // .catch(err => console.log(err));
   });
 };
@@ -287,8 +303,13 @@ export const initialize = container => {
       // view.on('click', _handleViewClick);
     })
     .catch(noop);
+  // map.allLayers.on("change", function(event) {
+  //   console.log("Layer added: ", event.added);
+  //   console.log("Layer removed: ", event.removed);
+  //   console.log("Layer moved: ", event.moved);
+  //   bikesSorter();
+  //   });
   map.addMany([searchRadius, cabiLayer, jumpLayer]);
-  bikesSorter();
   return () => {
     view.container = null;
   };
