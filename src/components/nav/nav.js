@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 //ArcGIS Functions
 import {
-  geoprocessor
+  geoprocessor, setRadius
 } from '../../controllers/esriMapController';
 
 
@@ -76,7 +76,8 @@ export class Nav extends Component {
 
   handleClick = () => {
     // TODO
-    // console.log(this.props.featureValues);
+    console.log(this.state);
+    // setRadius();
     // // debugger;
     // console.log(geoprocessor());
   };

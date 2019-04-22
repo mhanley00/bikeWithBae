@@ -42,40 +42,15 @@ let _setMapLayers = null;
 let _analysisActiveToggle = null;
 let _storeAnalysis = null;
 
+let latitude;
+let longitude;
+const availableBikes = [];
+
+
 export const map = new Map({
   basemap: 'dark-gray'
 });
 
-let latitude;
-let longitude;
-export const getUserLocation = () => {
-  const location = window.navigator && window.navigator.geolocation;
-
-  if (location) {
-    location.getCurrentPosition(
-      position => {
-        latitude = position.coords.latitude;
-        longitude = position.coords.longitude;
-        console.log(latitude, longitude);
-        // return [longitude, latitude];
-        store.dispatch(setGPParameterValue('user location', [longitude, latitude]));
-        const userCircle = new Circle({
-            radius: 1000,
-            center: [longitude, latitude]
-          });
-          const userRadius = new Graphic({
-            geometry: userCircle,
-            symbol: fillSymbol
-          })
-          searchRadius.graphics.add(userRadius);
-      },
-      error => {
-        latitude = 'err-latitude';
-        longitude = 'err-longitude';
-      }
-    );
-  }
-};
 export const view = new MapView({
   map: map,
   // container: map.container,
@@ -101,7 +76,7 @@ export const jumpLayer = new GraphicsLayer({
   title: 'JUMP'
 });
 /*
-  Drawing Utilities
+Drawing Utilities
 */
 export const sketch = new Sketch({
   view,
@@ -112,12 +87,8 @@ export const circle = new Circle({
   radius: 1000,
   center: [-77.0369, 38.9072]
 });
-// export const userCircle = new Circle({
-//   radius: 1000,
-//   center: [longitude, latitude]
-// });
-export const stationMaker = (lon, lat) => {
 
+export const stationMaker = (lon, lat) => {
   const stationCircle = new Circle({
     radius: 10,
     center: [lon, lat]
@@ -128,7 +99,6 @@ export const fillSymbol = {
   type: 'simple-fill',
   color: [227, 139, 79, 0.8],
   outline: {
-
     color: [255, 255, 255],
     width: 1
   }
@@ -144,12 +114,59 @@ export const locateWidget = new Locate({
 });
 
 
-const availableBikes = [];
+export const setRadius = (number) => {
+    const state = store.getState();
+    // if (state.screeningTool.featureValues.userlocation[0]) {
+    if (state.screeningTool.featureValues.userLocation.length) {
+      console.log(state.screeningTool.featureValues.userLocation);
+      //Once we have the user location, remove the old circle
+      // searchRadius.removeAll();
+      // const newRadius = state.screeningTool.featureValues.Radius;
+      // //run gpservice update and dispatch to Redux
+      store.dispatch(setGPParameterValue('Radius', number));
+      console.log('i changed');
+    }
+    // else {
+    //   console.log('no location yet');
+    // }
+  };
+export const getUserLocation = () => {
+  const location = window.navigator && window.navigator.geolocation;
+
+  if (location) {
+    location.getCurrentPosition(
+      position => {
+        latitude = position.coords.latitude;
+        longitude = position.coords.longitude;
+        // console.log(latitude, longitude);
+        // return [longitude, latitude];
+        store.dispatch(
+          setGPParameterValue('userLocation', [longitude, latitude])
+        );
+        // get radius from redux store/state here
+        // setRadius(); //TODO pass in radius, or pass this as radius
+        const userCircle = new Circle({
+          radius: 1000,
+          center: [longitude, latitude]
+        });
+        const userRadius = new Graphic({
+          geometry: userCircle,
+          symbol: fillSymbol
+        });
+        searchRadius.graphics.add(userRadius);
+      },
+      error => {
+        latitude = 'err-latitude';
+        longitude = 'err-longitude';
+      }
+    );
+  }
+};
+
+
 export const getCaBiBikes = () => {
   cabi.search().then(res => {
-
     res.forEach(bike => {
-
       const bikePoint = new Graphic({
         geometry: stationMaker(
           bike.geometry.coordinates[0],
@@ -202,7 +219,6 @@ export const getJumpBikes = () => {
   });
 };
 
-
 /*
   Attaches the esri view to passed dom node.
   Handles initial setup:
@@ -211,7 +227,6 @@ export const getJumpBikes = () => {
   @container: mounted html dom node
 */
 export const initialize = container => {
-
   getUserLocation();
   getCaBiBikes();
   getJumpBikes();
@@ -227,10 +242,10 @@ export const initialize = container => {
       // view.graphics.addMany(availableBikes)
 
       // view.on('click', _handleViewClick);
-
     })
     .catch(noop);
   map.addMany([searchRadius, cabiLayer, jumpLayer]);
+  
 
   return () => {
     view.container = null;
@@ -352,7 +367,6 @@ export const createInsetMap = (insetMapOptions, container) => {
     }
   });
 };
-
 
 // _getUserLocation = () => {
 //   store.dispatch(setGPParameterValue('user location', getUserLocation()));

@@ -7,6 +7,7 @@ import { setGPParameterValue } from 'reducers/screeningTool/actions';
 import Select from '@material-ui/core/Select';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import MenuItem from '@material-ui/core/MenuItem';
+import { setRadius } from '../../controllers/esriMapController';
 
 export class DropDown extends Component {
   constructor(props) {
@@ -25,7 +26,7 @@ export class DropDown extends Component {
   handleChange = event => {
     const { value } = event.target;
     const { definition } = this.props;
-    
+
     this.setState({
       value
     });
@@ -34,6 +35,11 @@ export class DropDown extends Component {
       definition.name,
       value
     );
+    // TODO add conditional for whether the param is radius or riders, might need to dispatch at bottom?
+    if (definition.name === 'Radius'){
+      setRadius(value);
+      console.log('yes thank you');
+    }
   };
 
   render() {
