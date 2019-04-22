@@ -46,7 +46,6 @@ let latitude;
 let longitude;
 const availableBikes = [];
 
-
 export const map = new Map({
   basemap: 'dark-gray'
 });
@@ -125,25 +124,23 @@ export const drawRadius = (r, lon, lat) => {
   searchRadius.graphics.add(userRadius);
 };
 
-export const setRadius = (r) => {
-    const state = store.getState();
-    // if (state.screeningTool.featureValues.userlocation[0]) {
-    if (state.screeningTool.featureValues.userLocation.length) {
-      const lon = state.screeningTool.featureValues.userLocation[0];
-      const lat = state.screeningTool.featureValues.userLocation[1];
-      console.log(state.screeningTool.featureValues.userLocation);
-      //Once we have the user location, remove the old circle
-      // searchRadius.removeAll();
-      // const newRadius = state.screeningTool.featureValues.Radius;
-      // update and dispatch new radius value to Redux
-      store.dispatch(setGPParameterValue('Radius', r));
-      console.log('i changed');
-      drawRadius(r, lon, lat);
-    }
-    else {
-      console.log('Where you at?');
-    }
-  };
+export const setRadius = r => {
+  const state = store.getState();
+  // if (state.screeningTool.featureValues.userlocation[0]) {
+  if (state.screeningTool.featureValues.userLocation.length) {
+    const lon = state.screeningTool.featureValues.userLocation[0];
+    const lat = state.screeningTool.featureValues.userLocation[1];
+    console.log(state.screeningTool.featureValues.userLocation);
+    //Once we have the user location, remove the old circle
+    searchRadius.removeAll();
+    // update and dispatch new radius value to Redux
+    store.dispatch(setGPParameterValue('Radius', r));
+    console.log('i changed');
+    drawRadius(r, lon, lat);
+  } else {
+    console.log('Where you at?');
+  }
+};
 export const getUserLocation = () => {
   const location = window.navigator && window.navigator.geolocation;
 
@@ -169,7 +166,6 @@ export const getUserLocation = () => {
     );
   }
 };
-
 
 export const getCaBiBikes = () => {
   cabi.search().then(res => {
@@ -252,7 +248,6 @@ export const initialize = container => {
     })
     .catch(noop);
   map.addMany([searchRadius, cabiLayer, jumpLayer]);
-  
 
   return () => {
     view.container = null;
