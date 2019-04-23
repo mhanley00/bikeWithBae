@@ -133,18 +133,22 @@ export const appConfig = {
             label: '1',
             value: 1
           },
-          // {
-          //   label: '5',
-          //   value: 5
-          // },
-          // {
-          //   label: '6',
-          //   value: 6
-          // },
-          // {
-          //   label: '7',
-          //   value: 7
-          // }
+          {
+            label: '1.25',
+            value: 1.25
+          },
+          {
+            label: '1.5',
+            value: 1.5
+          },
+          {
+            label: '1.75',
+            value: 1.75
+          },
+          {
+            label: '2',
+            value: 2
+          }
         ]
       },
       required: false

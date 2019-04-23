@@ -137,6 +137,9 @@ export const getClosestBikes = () => {
   const state = store.getState();
   const cabiBikes = getAllBrandBikes(cabiLayer);
   const jumpBikes = getAllBrandBikes(jumpLayer);
+
+  setRadius(state.screeningTool.featureValues.Radius); //Draw the radius cirlce if user hasn't already
+
   cabiBikes.forEach(caBiBike => {
     if ((caBiBike.attributes.distance < state.screeningTool.featureValues.Radius) && (caBiBike.attributes['Available Bikes'] >= state.screeningTool.featureValues.Riders)){
       caBiBike.visible = true;
@@ -151,7 +154,6 @@ export const getClosestBikes = () => {
     jumpBikes.forEach(jumpBike => {
     if (jumpBike.attributes.distance < state.screeningTool.featureValues.Radius){
       jumpBike.visible = true;
-      // if () //if the distance between the two jump bikes is less than radius, show them
     }
     if (jumpBike.attributes.distance > state.screeningTool.featureValues.Radius){
       jumpBike.visible = false;
@@ -174,7 +176,6 @@ export const setRadius = r => {
 
     // Update and dispatch new radius value to Redux
     store.dispatch(setGPParameterValue('Radius', r));
-    console.log('new radius coming right up');
     drawRadius(r, lon, lat);
   } else {
     console.log('Where you at?');
