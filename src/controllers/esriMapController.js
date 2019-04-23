@@ -109,7 +109,7 @@ export const stationMaker = (lon, lat) => {
 };
 export const fillSymbol = {
   type: 'simple-fill',
-  color: [227, 139, 79, 0.8],
+  color: [3, 169, 244, 0.6],
   outline: {
     color: [255, 255, 255],
     width: 1
