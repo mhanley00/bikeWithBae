@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import { setGPParameterValue } from 'reducers/screeningTool/actions';
 
+import { toggleLayerVis } from '../../controllers/esriMapController';
+
 //Material UI Components
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -30,6 +32,7 @@ class BikeBrand extends Component {
     );
   }
   handleChange = () => {
+    let layerID;
     const { label } = this.props;
     const selected = !this.state.checked;
     this.setState({checked: selected});
@@ -38,6 +41,13 @@ class BikeBrand extends Component {
       label,
       selected
     );
+    if (label === 'Capital Bikeshare'){
+      layerID = 'cabi-bikes';
+    }
+    if (label === 'Jump'){
+      layerID = 'jump-bikes';
+    }
+    toggleLayerVis('visible', selected, layerID);
   };
 
   render() {

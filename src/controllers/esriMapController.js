@@ -82,6 +82,14 @@ export const sketch = new Sketch({
   layer: searchRadius
 });
 
+export const toggleLayerVis = (key, value, id) => {
+  const layerToUpdate = map.findLayerById(id);
+  console.log(layerToUpdate);
+  if (layerToUpdate) {
+    layerToUpdate[key] = value;
+  }
+};
+
 export const stationMaker = (lon, lat) => {
   const stationCircle = new Circle({
     radius: 10,
@@ -182,15 +190,11 @@ export const haversine = (lon1, lat1, lon2, lat2) => {
 
 export const bikesSorter = () => {
   const sortedBikes = [];
-  const capitalBikeshare = 'Capital Bikeshare'; // TODO take from config
-  // pass in array of graphics on the map, grab their lat/lon
+  sortedBikes.push(...getAllBrandBikes(cabiLayer));
+  sortedBikes.push(...getAllBrandBikes(jumpLayer));
+  // grab all graphics on the map
   // get redux state of whether a bike brand is checked, if it's checked, add it to the array of total bikes
-  // all conditionals?
 
-  sortedBikes.push(...getAllBrandBikes(cabiLayer)); //index 0
-  sortedBikes.push(...getAllBrandBikes(jumpLayer)); //index 1
-
-  // if caBi bikes are checked in const state = store.getState();
   const state = store.getState();
 
   // Once we have the user's location, grab from Redux and...
@@ -198,6 +202,7 @@ export const bikesSorter = () => {
     const lon = state.screeningTool.featureValues.userLocation[0];
     const lat = state.screeningTool.featureValues.userLocation[1];
     console.log(state.screeningTool.featureValues.userLocation);
+
     // if (state.screeningTool.featureValues['Capital Bikeshare']){
       // sortedBikes[0].map(bike => {
       sortedBikes.map(bike => {
@@ -212,7 +217,6 @@ export const bikesSorter = () => {
 
       sortedBikes.sort((a, b) => {
         // console.log(a.geometry.distance);
-        // return a.distance - b.distance;
         return a.geometry.distance - b.geometry.distance;
       })
       .then(console.log(sortedBikes));
@@ -321,6 +325,7 @@ export const initialize = container => {
   //   bikesSorter();
   //   });
   map.addMany([searchRadius, cabiLayer, jumpLayer]);
+
   return () => {
     view.container = null;
   };
