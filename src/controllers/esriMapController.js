@@ -137,20 +137,23 @@ export const getClosestBikes = () => {
   const state = store.getState();
   const cabiBikes = getAllBrandBikes(cabiLayer);
   const jumpBikes = getAllBrandBikes(jumpLayer);
-  cabiBikes.forEach(caBiBike =>{
-    console.log(caBiBike);
+  cabiBikes.forEach(caBiBike => {
+    if (caBiBike.attributes.distance < state.screeningTool.featureValues.Radius){
+      caBiBike.visible = true;
+    }
     if (caBiBike.attributes.distance > state.screeningTool.featureValues.Radius){
       caBiBike.visible = false;
-
     }
-    jumpBikes.forEach(jumpBike =>{
+    jumpBikes.forEach(jumpBike => {
+    if (jumpBike.attributes.distance < state.screeningTool.featureValues.Radius){
+      jumpBike.visible = true;
+    }
     if (jumpBike.attributes.distance > state.screeningTool.featureValues.Radius){
       jumpBike.visible = false;
-
-    }});
+    }
+  });
 
   });
-  console.log('helloooo');
 };
 
 export const setRadius = r => {
