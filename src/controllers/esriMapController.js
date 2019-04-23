@@ -93,7 +93,7 @@ export const sketch = new Sketch({
 });
 
 export const toggleLayerVis = (key, value, id) => {
-  const layerToUpdate = map.findLayerById(id);
+  const layerToUpdate = webmap.findLayerById(id);
   console.log(layerToUpdate);
   if (layerToUpdate) {
     layerToUpdate[key] = value;
@@ -133,6 +133,26 @@ export const drawRadius = (r, lon, lat) => {
   searchRadius.graphics.add(userRadius);
 };
 
+export const getClosestBikes = () => {
+  const state = store.getState();
+  const cabiBikes = getAllBrandBikes(cabiLayer);
+  const jumpBikes = getAllBrandBikes(jumpLayer);
+  cabiBikes.forEach(caBiBike =>{
+    console.log(caBiBike);
+    if (caBiBike.attributes.distance > state.screeningTool.featureValues.Radius){
+      caBiBike.visible = false;
+
+    }
+    jumpBikes.forEach(jumpBike =>{
+    if (jumpBike.attributes.distance > state.screeningTool.featureValues.Radius){
+      jumpBike.visible = false;
+
+    }});
+
+  });
+  console.log('helloooo');
+};
+
 export const setRadius = r => {
   const state = store.getState();
 
@@ -161,6 +181,7 @@ export const getUserLocation = () => {
       position => {
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
+        console.log('you are here');
 
         store.dispatch(
           setGPParameterValue('userLocation', [longitude, latitude])
@@ -216,12 +237,13 @@ export const bikesSorter = () => {
 
     // if (state.screeningTool.featureValues['Capital Bikeshare']){
     // sortedBikes[0].map(bike => {
-    sortedBikes.map(bike => {
+    sortedBikes.forEach(bike => {
       const bikeLon = bike.geometry.center.longitude;
       const bikeLat = bike.geometry.center.latitude;
       // console.log(haversine(bikeLon, bikeLat, lon, lat));
       const distance = haversine(bikeLon, bikeLat, lon, lat);
-      bike.geometry['distance'] = distance;
+      bike.geometry.distance = distance;
+      bike.attributes.distance = distance.toFixed(2);
       // console.log(bike.geometry.distance);
     });
     // .then(console.log(sortedBikes));
@@ -230,8 +252,8 @@ export const bikesSorter = () => {
       .sort((a, b) => {
         // console.log(a.geometry.distance);
         return a.geometry.distance - b.geometry.distance;
-      })
-      .then(console.log(sortedBikes));
+      });
+      console.log(sortedBikes);
     // }
   }
 };
@@ -243,6 +265,7 @@ export const getCaBiBikes = () => {
   const availableBikes = [];
   cabi.search().then(res => {
     res.forEach(bike => {
+      console.log(bike);
       const bikePoint = new Graphic({
         geometry: stationMaker(
           bike.geometry.coordinates[0],
@@ -259,9 +282,10 @@ export const getCaBiBikes = () => {
         },
         popupTemplate: new PopupTemplate({
           title: 'Capital Bikeshare',
-          content: `<b>${bike.properties.station.name}</b>
-          <br>Available Bikes: ${bike.properties.station.bikes_available}
-          <br>Available Docks: ${bike.properties.station.docks_available} `
+          content: `<b>{station}</b>
+          <br>Available Bikes: {Available Bikes}
+          <br>Available Docks: {Available Docks}
+          <br>Distance: {distance} miles`
         })
       });
       availableBikes.push(bikePoint);
@@ -288,8 +312,8 @@ export const getJumpBikes = () => {
         },
         popupTemplate: new PopupTemplate({
           title: 'JUMP Bike',
-          content: `Charge Level: ${bike.jump_ebike_battery_level}
-          <br>Bike ID: ${bike.bike_id}`
+          content: `Charge Level: {charge}
+          <br>Bike ID: {id}`
         })
       });
       availableBikes.push(bikePoint);

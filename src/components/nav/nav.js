@@ -3,10 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 //ArcGIS Functions
-import {
-  geoprocessor, setRadius
-} from '../../controllers/esriMapController';
-
+import { getClosestBikes } from '../../controllers/esriMapController';
 
 //Components
 import Dropdown from './dropdown';
@@ -20,6 +17,7 @@ import { withStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+
 
 //SASS
 import './nav.scss';
@@ -75,11 +73,7 @@ export class Nav extends Component {
   };
 
   handleClick = () => {
-    // TODO
-    console.log(this.state);
-    // setRadius();
-    // // debugger;
-    // console.log(geoprocessor());
+    getClosestBikes();
   };
 
   render() {

@@ -26,9 +26,9 @@ export class DropDown extends Component {
   handleChange = event => {
     const { value } = event.target;
     const { definition } = this.props;
-
+console.log(value);
     this.setState({
-      value
+      value: value
     });
 
     this.props.setGPParameterValue(
