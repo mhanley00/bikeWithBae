@@ -5,13 +5,19 @@
   height: 400px;
   padding: 20px;
   margin: 95px 20px 20px 15px;
-  border-radius: 8px;
+  // border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .8);
   overflow: auto;
-  background: #fafafa;
+  background: #242424; // #fafafa;
   flex-direction: row !important;
-  &[class^='Mui'] {
-  flex-direction: row !important;
+
+  h3, h6, p, span {
+    color: #e0e0e0;
+    font-family: "Avenir Next W00","Helvetica Neue",Helvetica, Arial, sans-serif;;
+    // font: "Century Gothic", Futura, sans-serif;
   }
+
+
   .button {
     margin-top: 15px;
     background: #03a9f4;
@@ -24,6 +30,7 @@
     }
   }
 }
+// TODO update font color to #d1d1d1
 
 .nav-header {
   width: 100%;
@@ -35,6 +42,7 @@
   left: 0px;
   position: absolute;
   background: #03a9f4;
+  border-bottom: 1.5px solid #e0e0e0;
 
   .card-header {
     vertical-align: middle;
