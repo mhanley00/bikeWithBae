@@ -50,8 +50,18 @@ export const map = new Map({
   basemap: 'dark-gray'
 });
 
+export const webmap = new WebMap({
+  portalItem: {
+    id: '2a0f29be13404994bfaaf4a239f43235'
+  }
+});
+// export const view = new MapView({
+//   map: webmap
+// });
+
 export const view = new MapView({
-  map: map,
+  map: webmap,
+  // map: map,
   // container: map.container,
   center: [-77.091, 38.8816],
   // center: [longitude, latitude],
@@ -204,25 +214,25 @@ export const bikesSorter = () => {
     console.log(state.screeningTool.featureValues.userLocation);
 
     // if (state.screeningTool.featureValues['Capital Bikeshare']){
-      // sortedBikes[0].map(bike => {
-      sortedBikes.map(bike => {
-        const bikeLon = bike.geometry.center.longitude;
-        const bikeLat = bike.geometry.center.latitude;
-        // console.log(haversine(bikeLon, bikeLat, lon, lat));
-        const distance = haversine(bikeLon, bikeLat, lon, lat);
-        bike.geometry['distance'] = distance;
-        // console.log(bike.geometry.distance);
-      });
-      // .then(console.log(sortedBikes));
+    // sortedBikes[0].map(bike => {
+    sortedBikes.map(bike => {
+      const bikeLon = bike.geometry.center.longitude;
+      const bikeLat = bike.geometry.center.latitude;
+      // console.log(haversine(bikeLon, bikeLat, lon, lat));
+      const distance = haversine(bikeLon, bikeLat, lon, lat);
+      bike.geometry['distance'] = distance;
+      // console.log(bike.geometry.distance);
+    });
+    // .then(console.log(sortedBikes));
 
-      sortedBikes.sort((a, b) => {
+    sortedBikes
+      .sort((a, b) => {
         // console.log(a.geometry.distance);
         return a.geometry.distance - b.geometry.distance;
       })
       .then(console.log(sortedBikes));
     // }
   }
-
 };
 
 /*
@@ -324,7 +334,8 @@ export const initialize = container => {
   //   console.log("Layer moved: ", event.moved);
   //   bikesSorter();
   //   });
-  map.addMany([searchRadius, cabiLayer, jumpLayer]);
+  // map.addMany([searchRadius, cabiLayer, jumpLayer]);
+  webmap.addMany([searchRadius, cabiLayer, jumpLayer]);
 
   return () => {
     view.container = null;
