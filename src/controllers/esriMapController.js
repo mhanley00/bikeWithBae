@@ -121,7 +121,7 @@ export const setRadius = r => {
   if (state.screeningTool.featureValues.userLocation.length) {
     const lon = state.screeningTool.featureValues.userLocation[0];
     const lat = state.screeningTool.featureValues.userLocation[1];
-    console.log(state.screeningTool.featureValues.userLocation);
+    console.log('you are at ', state.screeningTool.featureValues.userLocation);
 
     // Remove existing circle
     searchRadius.removeAll();
@@ -187,8 +187,8 @@ export const bikesSorter = () => {
   // get redux state of whether a bike brand is checked, if it's checked, add it to the array of total bikes
   // all conditionals?
 
-  sortedBikes.push(getAllBrandBikes(cabiLayer)); //index 0
-  sortedBikes.push(getAllBrandBikes(jumpLayer)); //index 1
+  sortedBikes.push(...getAllBrandBikes(cabiLayer)); //index 0
+  sortedBikes.push(...getAllBrandBikes(jumpLayer)); //index 1
 
   // if caBi bikes are checked in const state = store.getState();
   const state = store.getState();
@@ -198,31 +198,27 @@ export const bikesSorter = () => {
     const lon = state.screeningTool.featureValues.userLocation[0];
     const lat = state.screeningTool.featureValues.userLocation[1];
     console.log(state.screeningTool.featureValues.userLocation);
-    if (state.screeningTool.featureValues.capitalBikeshare){
-      sortedBikes[0].map(bike => {
+    // if (state.screeningTool.featureValues['Capital Bikeshare']){
+      // sortedBikes[0].map(bike => {
+      sortedBikes.map(bike => {
         const bikeLon = bike.geometry.center.longitude;
         const bikeLat = bike.geometry.center.latitude;
-        console.log(haversine(bikeLon, bikeLat, lon, lat));
+        // console.log(haversine(bikeLon, bikeLat, lon, lat));
+        const distance = haversine(bikeLon, bikeLat, lon, lat);
+        bike.geometry['distance'] = distance;
+        // console.log(bike.geometry.distance);
       });
+      // .then(console.log(sortedBikes));
 
-    }
+      sortedBikes.sort((a, b) => {
+        // console.log(a.geometry.distance);
+        // return a.distance - b.distance;
+        return a.geometry.distance - b.geometry.distance;
+      })
+      .then(console.log(sortedBikes));
+    // }
   }
 
-  // sortedBikes.sort(function(a, b) {
-  //   return a.distance - b.distance;
-  // });
-  // }
-  // sortedBikes[0].forEach( bike => {
-  //   console.log('pleeze', bike);
-  // });
-  // const cabiBikes = getAllBrandBikes(cabiLayer);
-  // cabiBikes.forEach( bike => {
-  //   return console.log(bike.geometry);
-  // });
-  // console.log(sortedBikes[0]);
-  // console.log(sortedBikes[1]);
-  // const jump = getAllBrandBikes(jumpLayer);
-  // call haversine between userlocation (Redux) and each bike station
 };
 
 /*
