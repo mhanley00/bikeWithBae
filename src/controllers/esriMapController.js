@@ -151,6 +151,7 @@ export const getClosestBikes = () => {
     jumpBikes.forEach(jumpBike => {
     if (jumpBike.attributes.distance < state.screeningTool.featureValues.Radius){
       jumpBike.visible = true;
+      // if () //if the distance between the two jump bikes is less than radius, show them
     }
     if (jumpBike.attributes.distance > state.screeningTool.featureValues.Radius){
       jumpBike.visible = false;
@@ -319,7 +320,8 @@ export const getJumpBikes = () => {
         popupTemplate: new PopupTemplate({
           title: 'JUMP Bike',
           content: `Charge Level: {charge}
-          <br>Bike ID: {id}`
+          <br>Bike ID: {id}
+          <br>Distance: {distance} miles`
         })
       });
       availableBikes.push(bikePoint);
