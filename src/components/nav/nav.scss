@@ -11,10 +11,12 @@
   background: #242424; // #fafafa;
   flex-direction: row !important;
 
-  h3, h6, p, span {
+  h3, h6, p, span, svg, div {
     color: #e0e0e0;
-    font-family: "Avenir Next W00","Helvetica Neue",Helvetica, Arial, sans-serif;;
-    // font: "Century Gothic", Futura, sans-serif;
+    font-family: "Avenir Next W00","Helvetica Neue",Helvetica, Arial, sans-serif;
+  }
+  h3 {
+    font-weight: bold;
   }
 
 
@@ -41,7 +43,7 @@
   top: 0px;
   left: 0px;
   position: absolute;
-  background: #03a9f4;
+  background: #03a9f4; //#04a1ff;
   border-bottom: 1.5px solid #e0e0e0;
 
   .card-header {
