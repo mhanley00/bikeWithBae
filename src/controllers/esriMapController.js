@@ -138,12 +138,16 @@ export const getClosestBikes = () => {
   const cabiBikes = getAllBrandBikes(cabiLayer);
   const jumpBikes = getAllBrandBikes(jumpLayer);
   cabiBikes.forEach(caBiBike => {
-    if (caBiBike.attributes.distance < state.screeningTool.featureValues.Radius){
+    if ((caBiBike.attributes.distance < state.screeningTool.featureValues.Radius) && (caBiBike.attributes['Available Bikes'] >= state.screeningTool.featureValues.Riders)){
       caBiBike.visible = true;
     }
-    if (caBiBike.attributes.distance > state.screeningTool.featureValues.Radius){
+    else if (caBiBike.attributes['Available Bikes'] < state.screeningTool.featureValues.Riders) {
       caBiBike.visible = false;
     }
+    else if (caBiBike.attributes.distance > state.screeningTool.featureValues.Radius){
+      caBiBike.visible = false;
+    }});
+
     jumpBikes.forEach(jumpBike => {
     if (jumpBike.attributes.distance < state.screeningTool.featureValues.Radius){
       jumpBike.visible = true;
@@ -153,7 +157,6 @@ export const getClosestBikes = () => {
     }
   });
 
-  });
 };
 
 export const setRadius = r => {
