@@ -123,7 +123,8 @@ export const locateWidget = new Locate({
 export const drawRadius = (r, lon, lat) => {
   const circle = new Circle({
     radius: r,
-    center: [lon, lat]
+    center: [lon, lat],
+    radiusUnit: 'miles'
   });
   const userRadius = new Graphic({
     geometry: circle,
