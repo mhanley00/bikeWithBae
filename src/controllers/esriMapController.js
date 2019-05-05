@@ -95,7 +95,7 @@ export const sketch = new Sketch({
 
 export const toggleLayerVis = (key, value, id) => {
   const layerToUpdate = webmap.findLayerById(id);
-  console.log(layerToUpdate);
+  // console.log(layerToUpdate);
   if (layerToUpdate) {
     layerToUpdate[key] = value;
   }
@@ -170,7 +170,7 @@ export const setRadius = r => {
   if (state.screeningTool.featureValues.userLocation.length) {
     const lon = state.screeningTool.featureValues.userLocation[0];
     const lat = state.screeningTool.featureValues.userLocation[1];
-    console.log('you are at ', state.screeningTool.featureValues.userLocation);
+    // console.log('you are at ', state.screeningTool.featureValues.userLocation);
 
     // Remove existing circle
     searchRadius.removeAll();
@@ -242,7 +242,7 @@ export const bikesSorter = () => {
   if (state.screeningTool.featureValues.userLocation.length) {
     const lon = state.screeningTool.featureValues.userLocation[0];
     const lat = state.screeningTool.featureValues.userLocation[1];
-    console.log(state.screeningTool.featureValues.userLocation);
+    // console.log(state.screeningTool.featureValues.userLocation);
 
     // if (state.screeningTool.featureValues['Capital Bikeshare']){
     // sortedBikes[0].map(bike => {
@@ -262,7 +262,7 @@ export const bikesSorter = () => {
         // console.log(a.geometry.distance);
         return a.geometry.distance - b.geometry.distance;
       });
-      console.log(sortedBikes);
+      // console.log(sortedBikes);
     // }
   }
 };
@@ -273,8 +273,9 @@ Shared vehicle API calls + drawing + adding to layers
 export const getCaBiBikes = () => {
   const availableBikes = [];
   cabi.search().then(res => {
+    console.log(res);
     res.forEach(bike => {
-      console.log(bike);
+      // console.log(bike);
       const bikePoint = new Graphic({
         geometry: stationMaker(
           bike.geometry.coordinates[0],
