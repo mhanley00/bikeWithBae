@@ -273,7 +273,7 @@ Shared vehicle API calls + drawing + adding to layers
 export const getCaBiBikes = () => {
   const availableBikes = [];
   cabi.search().then(res => {
-    console.log(res);
+    // console.log(res);
     res.forEach(bike => {
       // console.log(bike);
       const bikePoint = new Graphic({
