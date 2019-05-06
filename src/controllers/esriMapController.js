@@ -195,6 +195,8 @@ export const getUserLocation = () => {
         store.dispatch(
           setGPParameterValue('userLocation', [longitude, latitude])
         );
+        getCaBiBikes();
+        getJumpBikes();
       },
       error => {
         latitude = 'err-latitude';
@@ -348,8 +350,8 @@ export const getJumpBikes = () => {
 */
 export const initialize = container => {
   getUserLocation();
-  getCaBiBikes();
-  getJumpBikes();
+  // getCaBiBikes();
+  // getJumpBikes();
 
   view.container = container;
 
